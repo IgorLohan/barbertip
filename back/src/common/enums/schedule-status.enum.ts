@@ -1,0 +1,6 @@
+export enum ScheduleStatus {
+  AGENDADO = 'AGENDADO',
+  CONFIRMADO = 'CONFIRMADO',
+  CANCELADO = 'CANCELADO',
+  CONCLUIDO = 'CONCLUIDO',
+}
