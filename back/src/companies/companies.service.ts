@@ -1,9 +1,11 @@
-import { Injectable } from '@nestjs/common';
+import { ConflictException, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { Company, CompanyDocument } from './schemas/company.schema';
 import { CreateCompanyDto } from './dto/create-company.dto';
 import { UpdateCompanyDto } from './dto/update-company.dto';
+
+const DUPLICATE_KEY_CODE = 11000;
 
 @Injectable()
 export class CompaniesService {
@@ -11,13 +13,31 @@ export class CompaniesService {
     @InjectModel(Company.name) private companyModel: Model<CompanyDocument>,
   ) {}
 
+  private isDuplicateKeyError(err: unknown): boolean {
+    return (
+      typeof err === 'object' &&
+      err !== null &&
+      'code' in err &&
+      (err as { code?: number }).code === DUPLICATE_KEY_CODE
+    );
+  }
+
   async create(createCompanyDto: CreateCompanyDto): Promise<Company> {
-    const createdCompany = new this.companyModel(createCompanyDto);
-    return createdCompany.save();
+    try {
+      const createdCompany = new this.companyModel(createCompanyDto);
+      return await createdCompany.save();
+    } catch (err) {
+      if (this.isDuplicateKeyError(err)) {
+        throw new ConflictException(
+          'Já existe uma empresa com este nome. Escolha outro ou edite a existente.',
+        );
+      }
+      throw err;
+    }
   }
 
   async findAll(): Promise<Company[]> {
-    return this.companyModel.find({ active: true }).exec();
+    return this.companyModel.find({}).sort({ name: 1 }).exec();
   }
 
   async findOne(id: string): Promise<Company> {
@@ -25,9 +45,19 @@ export class CompaniesService {
   }
 
   async update(id: string, updateCompanyDto: UpdateCompanyDto): Promise<Company> {
-    return this.companyModel
-      .findByIdAndUpdate(id, updateCompanyDto, { new: true })
-      .exec();
+    try {
+      const updated = await this.companyModel
+        .findByIdAndUpdate(id, updateCompanyDto, { new: true })
+        .exec();
+      return updated!;
+    } catch (err) {
+      if (this.isDuplicateKeyError(err)) {
+        throw new ConflictException(
+          'Já existe uma empresa com este nome. Escolha outro.',
+        );
+      }
+      throw err;
+    }
   }
 
   async remove(id: string): Promise<void> {
