@@ -278,24 +278,24 @@ export default function BarbeiroAgendamentosPage() {
   return (
     <Layout>
       {(authLoading || loading) && <Loading text="Carregando agendamentos..." />}
-      <div className="bg-white rounded-2xl shadow-2xl p-6 md:p-8 space-y-6">
+      <div className="bg-white rounded-xl sm:rounded-2xl shadow-xl sm:shadow-2xl p-4 sm:p-6 md:p-8 space-y-4 sm:space-y-6 overflow-hidden">
         {/* Header */}
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between">
           <div>
-            <h1 className="text-4xl font-bold text-gray-900">Meus Agendamentos</h1>
-            <p className="mt-2 text-gray-600">Gerencie e acompanhe todos os seus agendamentos</p>
+            <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900">Meus Agendamentos</h1>
+            <p className="mt-1 sm:mt-2 text-sm sm:text-base text-gray-600">Gerencie e acompanhe todos os seus agendamentos</p>
           </div>
         </div>
 
         {/* Filtros */}
-        <div className="bg-white rounded-xl shadow-lg p-6 border border-gray-100">
+        <div className="bg-white rounded-xl shadow-lg p-4 sm:p-6 border border-gray-100">
           <div className="flex items-center gap-2 mb-4">
             <svg className="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z" />
             </svg>
             <h2 className="text-lg font-semibold text-gray-900">Filtros</h2>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 sm:gap-4 mb-4">
             <div>
               <label className="block text-gray-700 text-sm font-semibold mb-2 flex items-center gap-2">
                 <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -336,16 +336,16 @@ export default function BarbeiroAgendamentosPage() {
                 </svg>
                 Data Final
               </label>
-              <div className="flex items-center gap-2">
+              <div className="flex items-stretch gap-2 min-w-0">
                 <input
                   type="date"
                   value={tempFilters.endDate}
                   onChange={(e) => setTempFilters({ ...tempFilters, endDate: e.target.value })}
-                  className="flex-1 px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all bg-white text-gray-900"
+                  className="flex-1 min-w-0 px-3 sm:px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all bg-white text-gray-900 text-sm sm:text-base"
                 />
                 <button
                   onClick={handleSearch}
-                  className="px-4 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors shadow-md hover:shadow-lg flex items-center justify-center"
+                  className="flex-shrink-0 px-3 sm:px-4 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors shadow-md hover:shadow-lg flex items-center justify-center"
                   title="Pesquisar"
                 >
                   <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -371,43 +371,43 @@ export default function BarbeiroAgendamentosPage() {
         </div>
 
         {/* Cards de Estatísticas */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          <div className="bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl shadow-lg p-6 text-white transform transition-transform hover:scale-105">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
+          <div className="bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl shadow-lg p-4 sm:p-6 text-white transition-transform hover:scale-[1.02] active:scale-[0.98]">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-blue-100 text-sm font-medium">Total de Agendamentos</p>
-                <p className="text-3xl font-bold mt-2">{stats.total}</p>
+                <p className="text-blue-100 text-xs sm:text-sm font-medium">Total de Agendamentos</p>
+                <p className="text-2xl sm:text-3xl font-bold mt-1 sm:mt-2">{stats.total}</p>
               </div>
-              <div className="bg-white/20 rounded-full p-3">
-                <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <div className="bg-white/20 rounded-full p-2 sm:p-3">
+                <svg className="w-6 h-6 sm:w-8 sm:h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
                 </svg>
               </div>
             </div>
           </div>
 
-          <div className="bg-gradient-to-br from-amber-500 to-amber-600 rounded-xl shadow-lg p-6 text-white transform transition-transform hover:scale-105">
+          <div className="bg-gradient-to-br from-amber-500 to-amber-600 rounded-xl shadow-lg p-4 sm:p-6 text-white transition-transform hover:scale-[1.02] active:scale-[0.98]">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-amber-100 text-sm font-medium">Agendados</p>
-                <p className="text-3xl font-bold mt-2">{stats.agendado}</p>
+                <p className="text-amber-100 text-xs sm:text-sm font-medium">Agendados</p>
+                <p className="text-2xl sm:text-3xl font-bold mt-1 sm:mt-2">{stats.agendado}</p>
               </div>
-              <div className="bg-white/20 rounded-full p-3">
-                <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <div className="bg-white/20 rounded-full p-2 sm:p-3">
+                <svg className="w-6 h-6 sm:w-8 sm:h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                 </svg>
               </div>
             </div>
           </div>
 
-          <div className="bg-gradient-to-br from-green-500 to-green-600 rounded-xl shadow-lg p-6 text-white transform transition-transform hover:scale-105">
+          <div className="bg-gradient-to-br from-green-500 to-green-600 rounded-xl shadow-lg p-4 sm:p-6 text-white transition-transform hover:scale-[1.02] active:scale-[0.98] sm:col-span-2 lg:col-span-1">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-green-100 text-sm font-medium">Hoje</p>
-                <p className="text-3xl font-bold mt-2">{stats.hoje}</p>
+                <p className="text-green-100 text-xs sm:text-sm font-medium">Hoje</p>
+                <p className="text-2xl sm:text-3xl font-bold mt-1 sm:mt-2">{stats.hoje}</p>
               </div>
-              <div className="bg-white/20 rounded-full p-3">
-                <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <div className="bg-white/20 rounded-full p-2 sm:p-3">
+                <svg className="w-6 h-6 sm:w-8 sm:h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
                 </svg>
               </div>
@@ -416,19 +416,20 @@ export default function BarbeiroAgendamentosPage() {
         </div>
 
         {/* Heatmap de Agendamentos */}
-        <div className="bg-white rounded-xl shadow-lg p-6 border border-gray-100">
-          <div className="flex items-center gap-3 mb-6">
-            <div className="bg-blue-50 rounded-lg p-2">
-              <svg className="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <div className="bg-white rounded-xl shadow-lg p-4 sm:p-6 border border-gray-100 overflow-x-auto">
+          <div className="flex items-center gap-2 sm:gap-3 mb-4 sm:mb-6 min-w-0">
+            <div className="bg-blue-50 rounded-lg p-2 flex-shrink-0">
+              <svg className="w-5 h-5 sm:w-6 sm:h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
               </svg>
             </div>
-            <h2 className="text-xl font-bold text-gray-900" style={{ fontFamily: 'Inter, system-ui, -apple-system, sans-serif' }}>Distribuição de Agendamentos</h2>
+            <h2 className="text-base sm:text-lg md:text-xl font-bold text-gray-900 truncate" style={{ fontFamily: 'Inter, system-ui, -apple-system, sans-serif' }}>Distribuição de Agendamentos</h2>
           </div>
+          <div className="min-w-[320px]">
           {typeof window !== 'undefined' && (
             <Chart
               type="heatmap"
-              height={350}
+              height={280}
               options={{
                 chart: {
                   type: 'heatmap',
@@ -563,23 +564,24 @@ export default function BarbeiroAgendamentosPage() {
               series={heatmapData.series}
             />
           )}
+          </div>
         </div>
 
         {/* Lista de Agendamentos */}
         {selectedCell && (
-          <div className="bg-white rounded-xl shadow-lg p-6 border border-gray-100">
-            <div className="flex items-center justify-between mb-4">
-              <div className="flex items-center gap-2">
-                <svg className="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <div className="bg-white rounded-xl shadow-lg p-4 sm:p-6 border border-gray-100">
+            <div className="flex items-center justify-between gap-2 mb-4">
+              <div className="flex items-center gap-2 min-w-0">
+                <svg className="w-5 h-5 text-gray-600 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
                 </svg>
-                <h2 className="text-lg font-semibold text-gray-900">
+                <h2 className="text-base sm:text-lg font-semibold text-gray-900 truncate">
                   Agendamentos - {selectedCell.day} {selectedCell.time}
                 </h2>
               </div>
               <button
                 onClick={() => setSelectedCell(null)}
-                className="text-gray-500 hover:text-gray-700 p-2 rounded-lg hover:bg-gray-100 transition-colors"
+                className="text-gray-500 hover:text-gray-700 p-2 rounded-lg hover:bg-gray-100 transition-colors flex-shrink-0"
                 title="Fechar"
               >
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -588,7 +590,7 @@ export default function BarbeiroAgendamentosPage() {
               </button>
             </div>
             {sortedSchedules.length === 0 ? (
-            <div className="p-12 text-center">
+            <div className="p-8 sm:p-12 text-center">
               <svg className="w-16 h-16 text-gray-400 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
               </svg>
@@ -596,7 +598,7 @@ export default function BarbeiroAgendamentosPage() {
               <p className="text-gray-400 text-sm mt-2">Tente ajustar os filtros para ver mais resultados</p>
             </div>
           ) : (
-            <div className="flex flex-wrap gap-4">
+            <div className="flex flex-col sm:flex-row sm:flex-wrap gap-3 sm:gap-4">
               {sortedSchedules.map((schedule) => {
               const statusColors = getStatusColor(schedule.status);
               const scheduleDate = parseISO(schedule.startAt);
@@ -605,9 +607,9 @@ export default function BarbeiroAgendamentosPage() {
               return (
                 <div
                   key={schedule._id}
-                  className={`flex-1 min-w-[400px] bg-white rounded-xl shadow-lg border-2 ${statusColors.border} overflow-hidden transform transition-all hover:shadow-xl ${statusColors.bg}`}
+                  className={`flex-1 min-w-0 sm:min-w-[320px] lg:min-w-[360px] bg-white rounded-xl shadow-lg border-2 ${statusColors.border} overflow-hidden transition-all hover:shadow-xl ${statusColors.bg}`}
                 >
-                  <div className="p-6">
+                  <div className="p-4 sm:p-6">
                     {/* Header do Card */}
                     <div className="flex items-center justify-between mb-4">
                       <div className="flex items-center gap-3">
@@ -626,7 +628,7 @@ export default function BarbeiroAgendamentosPage() {
                     </div>
 
                     {/* Informações em Layout Horizontal */}
-                    <div className="grid grid-cols-2 gap-4 mb-4">
+                    <div className="grid grid-cols-2 gap-3 sm:gap-4 mb-4">
                       <div className="flex items-start gap-2 text-gray-700">
                         <svg className="w-5 h-5 text-gray-500 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />

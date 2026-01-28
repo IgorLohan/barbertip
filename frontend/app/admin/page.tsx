@@ -24,36 +24,36 @@ export default function AdminPage() {
   return (
     <Layout>
       {loading && <Loading text="Carregando..." />}
-      <div className="px-4 py-6 sm:px-0">
-        <h1 className="text-3xl font-bold text-gray-900 mb-6">Painel Administrativo</h1>
+      <div className="min-w-0">
+        <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-4 sm:mb-6">Painel Administrativo</h1>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
           {(user?.role === 'ADMIN' || user?.role === 'GERENTE') && (
             <>
               <Link
                 href="/admin/servicos"
-                className="bg-white shadow rounded-lg p-6 hover:shadow-lg transition-shadow"
+                className="bg-white shadow rounded-lg p-4 sm:p-6 hover:shadow-lg transition-shadow"
               >
-                <h2 className="text-xl font-semibold text-gray-900 mb-2">Serviços</h2>
-                <p className="text-gray-600">Gerenciar serviços oferecidos</p>
+                <h2 className="text-lg sm:text-xl font-semibold text-gray-900 mb-1 sm:mb-2">Serviços</h2>
+                <p className="text-gray-600 text-sm sm:text-base">Gerenciar serviços oferecidos</p>
               </Link>
 
               <Link
                 href="/admin/barbeiros"
-                className="bg-white shadow rounded-lg p-6 hover:shadow-lg transition-shadow"
+                className="bg-white shadow rounded-lg p-4 sm:p-6 hover:shadow-lg transition-shadow"
               >
-                <h2 className="text-xl font-semibold text-gray-900 mb-2">Barbeiros</h2>
-                <p className="text-gray-600">Gerenciar barbeiros</p>
+                <h2 className="text-lg sm:text-xl font-semibold text-gray-900 mb-1 sm:mb-2">Barbeiros</h2>
+                <p className="text-gray-600 text-sm sm:text-base">Gerenciar barbeiros</p>
               </Link>
             </>
           )}
 
           <Link
             href="/admin/agendamentos"
-            className="bg-white shadow rounded-lg p-6 hover:shadow-lg transition-shadow"
+            className="bg-white shadow rounded-lg p-4 sm:p-6 hover:shadow-lg transition-shadow"
           >
-            <h2 className="text-xl font-semibold text-gray-900 mb-2">Agendamentos</h2>
-            <p className="text-gray-600">Visualizar e gerenciar agendamentos</p>
+            <h2 className="text-lg sm:text-xl font-semibold text-gray-900 mb-1 sm:mb-2">Agendamentos</h2>
+            <p className="text-gray-600 text-sm sm:text-base">Visualizar e gerenciar agendamentos</p>
           </Link>
         </div>
       </div>

@@ -37,11 +37,11 @@ export default function Loading({
     <>
       {overlay && <div className={overlayClasses} />}
       <div className={containerClasses}>
-        <div className="text-center bg-white rounded-lg shadow-xl p-8 z-[10000]">
+        <div className="text-center bg-white rounded-lg shadow-xl p-4 sm:p-6 md:p-8 mx-3 sm:mx-4 z-[10000] max-w-[90vw]">
           <div
-            className={`inline-block animate-spin rounded-full ${sizeClasses[size]} border-blue-600 border-t-transparent mb-4`}
+            className={`inline-block animate-spin rounded-full ${sizeClasses[size]} border-blue-600 border-t-transparent mb-3 sm:mb-4`}
           ></div>
-          {text && <p className={`text-gray-600 ${textSizeClasses[size]}`}>{text}</p>}
+          {text && <p className={`text-gray-600 ${textSizeClasses[size]} text-sm sm:text-base`}>{text}</p>}
         </div>
       </div>
     </>

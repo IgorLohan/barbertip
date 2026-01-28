@@ -112,19 +112,20 @@ export default function ServicosPage() {
   return (
     <Layout>
       {(authLoading || loading) && <Loading text="Carregando serviços..." />}
-      <div className="px-4 py-6 sm:px-0">
-        <div className="flex justify-between items-center mb-6">
-          <h1 className="text-3xl font-bold text-gray-900">Serviços</h1>
+      <div className="min-w-0">
+        <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 mb-4 sm:mb-6">
+          <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">Serviços</h1>
           <button
             onClick={openNewModal}
-            className="bg-primary-600 hover:bg-primary-700 text-white px-4 py-2 rounded-md transition-colors"
+            className="w-full sm:w-auto bg-primary-600 hover:bg-primary-700 text-white px-4 py-2 rounded-md transition-colors"
           >
             Novo Serviço
           </button>
         </div>
 
         {/* Tabela */}
-        <div className="bg-white shadow-md rounded-lg overflow-hidden">
+        <div className="overflow-x-auto rounded-lg border border-gray-200">
+          <div className="bg-white shadow-md min-w-[600px]">
           <table className="min-w-full divide-y divide-gray-200">
             <thead className="bg-gray-50">
               <tr>
@@ -190,6 +191,7 @@ export default function ServicosPage() {
               )}
             </tbody>
           </table>
+          </div>
         </div>
 
         {/* Modal */}

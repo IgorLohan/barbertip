@@ -49,10 +49,10 @@ export default function Modal({ isOpen, onClose, title, children }: ModalProps) 
         </span>
 
         {/* Modal */}
-        <div className="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+        <div className="relative inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-2xl w-full max-w-[calc(100vw-2rem)] max-h-[90vh] overflow-y-auto mx-2 sm:mx-0">
           <div className="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
-            <div className="flex items-center justify-between mb-4">
-              <h3 className="text-lg font-medium text-gray-900" id="modal-title">
+            <div className="flex items-center justify-between gap-3 mb-4">
+              <h3 className="text-base sm:text-lg font-medium text-gray-900 truncate" id="modal-title">
                 {title}
               </h3>
               <button

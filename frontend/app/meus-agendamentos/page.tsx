@@ -73,56 +73,46 @@ export default function MeusAgendamentosPage() {
   return (
     <Layout>
       {loading && <Loading text="Carregando agendamentos..." />}
-      <div className="px-4 py-6 sm:px-0">
-        <h1 className="text-3xl font-bold text-gray-900 mb-6">Meus Agendamentos</h1>
+      <div className="min-w-0">
+        <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-4 sm:mb-6">Meus Agendamentos</h1>
 
         {schedules.length === 0 ? (
-          <div className="bg-white shadow rounded-lg p-6 text-center">
-            <p className="text-gray-500">Você não possui agendamentos.</p>
+          <div className="bg-white shadow rounded-lg p-6 sm:p-8 text-center">
+            <p className="text-gray-500 text-sm sm:text-base">Você não possui agendamentos.</p>
           </div>
         ) : (
-          <div className="bg-white shadow overflow-hidden sm:rounded-md">
+          <div className="bg-white shadow overflow-hidden rounded-lg">
             <ul className="divide-y divide-gray-200">
               {schedules.map((schedule) => (
-                <li key={schedule._id} className="px-6 py-4">
-                  <div className="flex items-center justify-between">
-                    <div className="flex-1">
-                      <div className="flex items-center">
-                        <h3 className="text-lg font-medium text-gray-900">
+                <li key={schedule._id} className="px-4 sm:px-6 py-4">
+                  <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3">
+                    <div className="flex-1 min-w-0">
+                      <div className="flex flex-wrap items-center gap-2">
+                        <h3 className="text-base sm:text-lg font-medium text-gray-900">
                           {schedule.serviceId.name}
                         </h3>
                         <span
-                          className={`ml-3 inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${getStatusColor(
+                          className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${getStatusColor(
                             schedule.status,
                           )}`}
                         >
                           {schedule.status}
                         </span>
                       </div>
-                      <div className="mt-2 text-sm text-gray-500">
-                        <p>
-                          <strong>Barbeiro:</strong> {schedule.barberId.userId.name}
-                        </p>
-                        <p>
-                          <strong>Data/Hora:</strong>{' '}
-                          {format(new Date(schedule.startAt), "dd/MM/yyyy 'às' HH:mm")}
-                        </p>
-                        <p>
-                          <strong>Duração:</strong> {schedule.serviceId.duration} minutos
-                        </p>
-                        <p>
-                          <strong>Preço:</strong> R$ {schedule.serviceId.price.toFixed(2)}
-                        </p>
+                      <div className="mt-2 text-sm text-gray-500 space-y-1">
+                        <p><strong>Barbeiro:</strong> {schedule.barberId.userId.name}</p>
+                        <p><strong>Data/Hora:</strong> {format(new Date(schedule.startAt), "dd/MM/yyyy 'às' HH:mm")}</p>
+                        <p><strong>Duração:</strong> {schedule.serviceId.duration} min · <strong>Preço:</strong> R$ {schedule.serviceId.price.toFixed(2)}</p>
                       </div>
                     </div>
                     {schedule.status !== 'CANCELADO' && schedule.status !== 'CONCLUIDO' && (
-                      <div className="ml-4">
+                      <div className="flex-shrink-0">
                         <button
                           onClick={() => handleCancel(schedule._id)}
                           className="text-red-600 hover:text-red-900 p-2 rounded-md hover:bg-red-50 transition-colors"
                           title="Cancelar"
                         >
-                          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
                           </svg>
                         </button>

@@ -83,12 +83,12 @@ export default function AgendamentosPage() {
   return (
     <Layout>
       {loading && <Loading text="Carregando agendamentos..." />}
-      <div className="px-4 py-6 sm:px-0">
-        <h1 className="text-3xl font-bold text-gray-900 mb-6">Agendamentos</h1>
+      <div className="min-w-0">
+        <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-4 sm:mb-6">Agendamentos</h1>
 
-        <div className="bg-white shadow rounded-lg p-6 mb-6">
-          <h2 className="text-lg font-semibold mb-4">Filtros</h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div className="bg-white shadow rounded-lg p-4 sm:p-6 mb-4 sm:mb-6">
+          <h2 className="text-base sm:text-lg font-semibold mb-3 sm:mb-4">Filtros</h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 sm:gap-4">
             <div>
               <label className="block text-gray-700 text-sm font-bold mb-2">Status</label>
               <select
@@ -124,45 +124,36 @@ export default function AgendamentosPage() {
           </div>
         </div>
 
-        <div className="bg-white shadow overflow-hidden sm:rounded-md">
+        <div className="bg-white shadow overflow-hidden rounded-lg">
           <ul className="divide-y divide-gray-200">
             {schedules.map((schedule) => (
-              <li key={schedule._id} className="px-6 py-4">
-                <div className="flex items-center justify-between">
-                  <div className="flex-1">
-                    <div className="flex items-center">
-                      <h3 className="text-lg font-medium text-gray-900">
+              <li key={schedule._id} className="px-4 sm:px-6 py-4">
+                <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3">
+                  <div className="flex-1 min-w-0">
+                    <div className="flex flex-wrap items-center gap-2">
+                      <h3 className="text-base sm:text-lg font-medium text-gray-900">
                         {schedule.serviceId.name}
                       </h3>
                       <span
-                        className={`ml-3 inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${getStatusColor(
+                        className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${getStatusColor(
                           schedule.status,
                         )}`}
                       >
                         {schedule.status}
                       </span>
                     </div>
-                    <div className="mt-2 text-sm text-gray-500">
-                      <p>
-                        <strong>Cliente:</strong> {schedule.clientId.name} ({schedule.clientId.email})
-                      </p>
-                      <p>
-                        <strong>Barbeiro:</strong> {schedule.barberId.userId.name}
-                      </p>
-                      <p>
-                        <strong>Data/Hora:</strong>{' '}
-                        {format(new Date(schedule.startAt), "dd/MM/yyyy 'às' HH:mm")}
-                      </p>
-                      <p>
-                        <strong>Preço:</strong> R$ {schedule.serviceId.price.toFixed(2)}
-                      </p>
+                    <div className="mt-2 text-sm text-gray-500 space-y-1">
+                      <p><strong>Cliente:</strong> {schedule.clientId.name} ({schedule.clientId.email})</p>
+                      <p><strong>Barbeiro:</strong> {schedule.barberId.userId.name}</p>
+                      <p><strong>Data/Hora:</strong> {format(new Date(schedule.startAt), "dd/MM/yyyy 'às' HH:mm")}</p>
+                      <p><strong>Preço:</strong> R$ {schedule.serviceId.price.toFixed(2)}</p>
                     </div>
                   </div>
-                  <div className="ml-4">
+                  <div className="sm:ml-4 flex-shrink-0 w-full sm:w-auto">
                     <select
                       value={schedule.status}
                       onChange={(e) => handleStatusChange(schedule._id, e.target.value)}
-                      className="shadow appearance-none border rounded py-2 px-3 text-gray-700 text-sm"
+                      className="shadow border rounded py-2 px-3 text-gray-700 text-sm w-full sm:w-auto min-w-[140px]"
                     >
                       <option value="AGENDADO">Agendado</option>
                       <option value="CONFIRMADO">Confirmado</option>

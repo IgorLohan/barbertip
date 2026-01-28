@@ -2,6 +2,11 @@
 @tailwind components;
 @tailwind utilities;
 
+html {
+  overflow-x: hidden;
+  -webkit-tap-highlight-color: transparent;
+}
+
 :root {
   --foreground-rgb: 0, 0, 0;
   --background-start-rgb: 214, 219, 220;
@@ -17,6 +22,7 @@
 }
 
 body {
+  overflow-x: hidden;
   color: rgb(var(--foreground-rgb));
   background: linear-gradient(
       to bottom,

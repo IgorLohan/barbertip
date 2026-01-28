@@ -248,18 +248,18 @@ export default function DashboardPage() {
     return (
       <Layout>
         {(authLoading || loading) && <Loading text="Carregando dashboard..." />}
-        <div className="px-4 py-6 sm:px-0">
-          <div className="flex justify-between items-center mb-6">
-            <h1 className="text-3xl font-bold text-gray-900">Dashboard Administrativo</h1>
-            <div className="flex items-center gap-3">
-              <label htmlFor="company-select" className="text-sm font-medium text-gray-700">
+        <div className="min-w-0">
+          <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 mb-4 sm:mb-6">
+            <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">Dashboard Administrativo</h1>
+            <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 sm:gap-3 min-w-0">
+              <label htmlFor="company-select" className="text-sm font-medium text-gray-700 shrink-0">
                 Filtrar por Empresa:
               </label>
               <select
                 id="company-select"
                 value={selectedCompanyId}
                 onChange={(e) => setSelectedCompanyId(e.target.value)}
-                className="px-4 py-2 border border-gray-300 rounded-md shadow-sm text-gray-900 bg-white focus:outline-none focus:ring-primary-500 focus:border-primary-500"
+                className="min-w-0 px-3 sm:px-4 py-2 border border-gray-300 rounded-md shadow-sm text-gray-900 bg-white focus:outline-none focus:ring-primary-500 focus:border-primary-500"
               >
                 <option value="">Todas as empresas</option>
                 {companies.map((company) => (
@@ -272,8 +272,8 @@ export default function DashboardPage() {
           </div>
 
           {/* Cards principais - ADMIN */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-            <div className="bg-white rounded-lg shadow p-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 mb-6 sm:mb-8">
+            <div className="bg-white rounded-lg shadow p-4 sm:p-6">
               <div className="flex items-center justify-between">
                 <div>
                   <p className="text-sm font-medium text-gray-600">Total de Empresas</p>

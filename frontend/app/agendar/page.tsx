@@ -153,37 +153,28 @@ export default function AgendarPage() {
 
   const selectedServiceData = services.find((s) => s._id === selectedService);
 
-  if (authLoading) {
-    return (
-      <Layout>
-        <Loading text="Carregando..." />
-      </Layout>
-    );
-  }
-
-  if (!isAuthenticated) {
-    return null;
-  }
+  if (!isAuthenticated) return null;
 
   return (
     <Layout>
-      <div className="px-4 py-6 sm:px-0">
-        <div className="max-w-2xl mx-auto">
-          <h1 className="text-3xl font-bold text-gray-900 mb-6">Novo Agendamento</h1>
+      {authLoading && <Loading text="Carregando..." />}
+      {!authLoading && (
+      <div className="px-0 py-4 sm:py-6 max-w-2xl mx-auto">
+        <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-4 sm:mb-6 px-1">Novo Agendamento</h1>
 
-          {error && (
-            <div className="bg-red-50 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
-              {error}
-            </div>
-          )}
+        {error && (
+          <div className="bg-red-50 border border-red-400 text-red-700 px-3 sm:px-4 py-2 sm:py-3 rounded mb-4 text-sm sm:text-base">
+            {error}
+          </div>
+        )}
 
-          {success && (
-            <div className="bg-green-50 border border-green-400 text-green-700 px-4 py-3 rounded mb-4">
-              {success}
-            </div>
-          )}
+        {success && (
+          <div className="bg-green-50 border border-green-400 text-green-700 px-3 sm:px-4 py-2 sm:py-3 rounded mb-4 text-sm sm:text-base">
+            {success}
+          </div>
+        )}
 
-          <form onSubmit={handleSubmit} className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
+        <form onSubmit={handleSubmit} className="bg-white shadow-md rounded-lg px-4 sm:px-6 md:px-8 pt-4 sm:pt-6 pb-6 sm:pb-8 mb-4">
             <div className="mb-4">
               <label className="block text-gray-700 text-sm font-bold mb-2">
                 Serviço *
@@ -246,7 +237,7 @@ export default function AgendarPage() {
                     <Loading size="sm" text="Carregando horários disponíveis..." fullScreen={false} />
                   </div>
                 ) : availableSlots.length > 0 ? (
-                  <div className="grid grid-cols-3 gap-2">
+                  <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
                     {availableSlots.map((slot) => {
                       const slotDate = new Date(slot);
                       const isPast = slotDate < new Date();
@@ -263,7 +254,7 @@ export default function AgendarPage() {
                               setError(''); // Limpar erro ao selecionar horário
                             }
                           }}
-                          className={`py-2 px-4 rounded border transition-colors ${
+                          className={`py-2 px-3 sm:px-4 rounded border transition-colors text-sm sm:text-base ${
                             isDisabled
                               ? 'bg-gray-100 text-gray-400 border-gray-200 cursor-not-allowed'
                               : selectedSlot === slot
@@ -298,18 +289,18 @@ export default function AgendarPage() {
               </div>
             )}
 
-            <div className="flex items-center justify-between">
+            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
               <button
                 type="submit"
                 disabled={loading || !selectedSlot}
-                className="bg-primary-600 hover:bg-primary-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline disabled:opacity-50"
+                className="w-full sm:w-auto bg-primary-600 hover:bg-primary-700 text-white font-bold py-2.5 sm:py-2 px-4 rounded focus:outline-none focus:shadow-outline disabled:opacity-50"
               >
                 {loading ? 'Agendando...' : 'Confirmar Agendamento'}
               </button>
             </div>
           </form>
-        </div>
       </div>
+      )}
     </Layout>
   );
 }
