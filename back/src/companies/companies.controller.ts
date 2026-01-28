@@ -32,7 +32,7 @@ export class CompaniesController {
   }
 
   @Get()
-  @ApiOperation({ summary: 'Listar todas as empresas' })
+  @ApiOperation({ summary: 'Listar todas as empresas (ativas e inativas)' })
   findAll() {
     return this.companiesService.findAll();
   }

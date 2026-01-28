@@ -99,6 +99,13 @@ export default function DashboardPage() {
   }, [user, authLoading, router]);
 
   useEffect(() => {
+    const companyId = (user as { companyId?: string })?.companyId;
+    if (user?.role === 'ADMIN' && companyId) {
+      setSelectedCompanyId(companyId);
+    }
+  }, [user]);
+
+  useEffect(() => {
     if (user?.role === 'ADMIN' || user?.role === 'GERENTE') {
       if (user?.role === 'ADMIN') {
         loadCompanies();
