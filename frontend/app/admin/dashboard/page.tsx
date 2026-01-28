@@ -248,8 +248,8 @@ export default function DashboardPage() {
     return (
       <Layout>
         {(authLoading || loading) && <Loading text="Carregando dashboard..." />}
-        <div className="min-w-0">
-          <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 mb-4 sm:mb-6">
+        <div className="bg-white rounded-xl sm:rounded-2xl shadow-xl sm:shadow-2xl p-4 sm:p-6 md:p-8 overflow-hidden min-w-0 space-y-4 sm:space-y-6">
+          <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4">
             <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">Dashboard Administrativo</h1>
             <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 sm:gap-3 min-w-0">
               <label htmlFor="company-select" className="text-sm font-medium text-gray-700 shrink-0">
@@ -272,8 +272,8 @@ export default function DashboardPage() {
           </div>
 
           {/* Cards principais - ADMIN */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 mb-6 sm:mb-8">
-            <div className="bg-white rounded-lg shadow p-4 sm:p-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
+            <div className="border border-gray-100 rounded-xl bg-gray-50/50 p-4 sm:p-6">
               <div className="flex items-center justify-between">
                 <div>
                   <p className="text-sm font-medium text-gray-600">Total de Empresas</p>
@@ -293,7 +293,7 @@ export default function DashboardPage() {
               </Link>
             </div>
 
-            <div className="bg-white rounded-lg shadow p-6">
+            <div className="border border-gray-100 rounded-xl bg-gray-50/50 p-4 sm:p-6">
               <div className="flex items-center justify-between">
                 <div>
                   <p className="text-sm font-medium text-gray-600">Total de Usuários</p>
@@ -313,7 +313,7 @@ export default function DashboardPage() {
               </Link>
             </div>
 
-            <div className="bg-white rounded-lg shadow p-6">
+            <div className="border border-gray-100 rounded-xl bg-gray-50/50 p-4 sm:p-6">
               <div className="flex items-center justify-between">
                 <div>
                   <p className="text-sm font-medium text-gray-600">Receita Mensal</p>
@@ -330,7 +330,7 @@ export default function DashboardPage() {
               </div>
             </div>
 
-            <div className="bg-white rounded-lg shadow p-6">
+            <div className="border border-gray-100 rounded-xl bg-gray-50/50 p-4 sm:p-6">
               <div className="flex items-center justify-between">
                 <div>
                   <p className="text-sm font-medium text-gray-600">Agendamentos Hoje</p>
@@ -349,9 +349,9 @@ export default function DashboardPage() {
           </div>
 
           {/* Gráficos - ADMIN */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
             {/* Gráfico de Pizza - Distribuição de Usuários */}
-            <div className="bg-white rounded-lg shadow p-6">
+            <div className="border border-gray-100 rounded-xl bg-gray-50/50 p-4 sm:p-6">
               <h2 className="text-xl font-semibold text-gray-900 mb-4">Distribuição de Usuários</h2>
               {adminStats && (
                 <ResponsiveContainer width="100%" height={300}>
@@ -383,7 +383,7 @@ export default function DashboardPage() {
             </div>
 
             {/* Gráfico de Barras - Empresas Ativas vs Inativas */}
-            <div className="bg-white rounded-lg shadow p-6">
+            <div className="border border-gray-100 rounded-xl bg-gray-50/50 p-4 sm:p-6">
               <h2 className="text-xl font-semibold text-gray-900 mb-4">Status das Empresas</h2>
               {adminStats && (
                 <ResponsiveContainer width="100%" height={300}>
@@ -408,7 +408,7 @@ export default function DashboardPage() {
           </div>
 
           {/* Estatísticas de usuários por tipo - ADMIN */}
-          <div className="bg-white rounded-lg shadow p-6 mb-8">
+          <div className="border border-gray-100 rounded-xl bg-gray-50/50 p-4 sm:p-6">
             <h2 className="text-xl font-semibold text-gray-900 mb-4">Usuários por Tipo</h2>
             <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
               <div className="bg-red-50 rounded-lg p-4">
@@ -439,14 +439,12 @@ export default function DashboardPage() {
   return (
     <Layout>
       {(authLoading || loading) && <Loading text="Carregando dashboard..." />}
-      <div className="px-4 py-6 sm:px-0">
-        <div className="flex justify-between items-center mb-6">
-          <h1 className="text-3xl font-bold text-gray-900">Dashboard Gerencial</h1>
-        </div>
+      <div className="bg-white rounded-xl sm:rounded-2xl shadow-xl sm:shadow-2xl p-4 sm:p-6 md:p-8 overflow-hidden min-w-0 space-y-4 sm:space-y-6">
+        <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">Dashboard Gerencial</h1>
 
         {/* Cards principais - GERENTE */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-          <div className="bg-white rounded-lg shadow p-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
+          <div className="border border-gray-100 rounded-xl bg-gray-50/50 p-4 sm:p-6">
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm font-medium text-gray-600">Total de Serviços</p>
@@ -463,7 +461,7 @@ export default function DashboardPage() {
             </Link>
           </div>
 
-          <div className="bg-white rounded-lg shadow p-6">
+          <div className="border border-gray-100 rounded-xl bg-gray-50/50 p-4 sm:p-6">
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm font-medium text-gray-600">Total de Barbeiros</p>
@@ -480,7 +478,7 @@ export default function DashboardPage() {
             </Link>
           </div>
 
-          <div className="bg-white rounded-lg shadow p-6">
+          <div className="border border-gray-100 rounded-xl bg-gray-50/50 p-4 sm:p-6">
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm font-medium text-gray-600">Agendamentos Hoje</p>
@@ -500,7 +498,7 @@ export default function DashboardPage() {
             </Link>
           </div>
 
-          <div className="bg-white rounded-lg shadow p-6">
+          <div className="border border-gray-100 rounded-xl bg-gray-50/50 p-4 sm:p-6">
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm font-medium text-gray-600">Total de Agendamentos</p>
@@ -519,7 +517,7 @@ export default function DashboardPage() {
         </div>
 
         {/* Status dos agendamentos - GERENTE */}
-        <div className="bg-white rounded-lg shadow p-6 mb-8">
+        <div className="border border-gray-100 rounded-xl bg-gray-50/50 p-4 sm:p-6">
           <h2 className="text-xl font-semibold text-gray-900 mb-4">Status dos Agendamentos</h2>
           <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
             <div className="bg-yellow-50 rounded-lg p-4">
@@ -542,7 +540,7 @@ export default function DashboardPage() {
         </div>
 
         {/* Calendário de Agendamentos - GERENTE */}
-        <div className="mb-8">
+        <div className="border border-gray-100 rounded-xl bg-gray-50/50 p-4 sm:p-6 overflow-hidden">
           <Calendar schedules={gerenteSchedules} />
         </div>
       </div>

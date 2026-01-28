@@ -159,8 +159,8 @@ export default function AgendarPage() {
     <Layout>
       {authLoading && <Loading text="Carregando..." />}
       {!authLoading && (
-      <div className="px-0 py-4 sm:py-6 max-w-2xl mx-auto">
-        <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-4 sm:mb-6 px-1">Novo Agendamento</h1>
+      <div className="bg-white rounded-xl sm:rounded-2xl shadow-xl sm:shadow-2xl p-4 sm:p-6 md:p-8 overflow-hidden max-w-2xl mx-auto space-y-4 sm:space-y-6">
+        <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-4 sm:mb-6">Novo Agendamento</h1>
 
         {error && (
           <div className="bg-red-50 border border-red-400 text-red-700 px-3 sm:px-4 py-2 sm:py-3 rounded mb-4 text-sm sm:text-base">
@@ -174,7 +174,7 @@ export default function AgendarPage() {
           </div>
         )}
 
-        <form onSubmit={handleSubmit} className="bg-white shadow-md rounded-lg px-4 sm:px-6 md:px-8 pt-4 sm:pt-6 pb-6 sm:pb-8 mb-4">
+        <form onSubmit={handleSubmit} className="border border-gray-100 rounded-xl bg-gray-50/50 px-4 sm:px-6 md:px-8 pt-4 sm:pt-6 pb-6 sm:pb-8">
             <div className="mb-4">
               <label className="block text-gray-700 text-sm font-bold mb-2">
                 Serviço *

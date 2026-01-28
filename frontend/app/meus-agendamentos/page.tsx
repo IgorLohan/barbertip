@@ -73,15 +73,15 @@ export default function MeusAgendamentosPage() {
   return (
     <Layout>
       {loading && <Loading text="Carregando agendamentos..." />}
-      <div className="min-w-0">
-        <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-4 sm:mb-6">Meus Agendamentos</h1>
+      <div className="bg-white rounded-xl sm:rounded-2xl shadow-xl sm:shadow-2xl p-4 sm:p-6 md:p-8 overflow-hidden min-w-0 space-y-4 sm:space-y-6">
+        <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">Meus Agendamentos</h1>
 
         {schedules.length === 0 ? (
-          <div className="bg-white shadow rounded-lg p-6 sm:p-8 text-center">
+          <div className="border border-gray-100 rounded-xl bg-gray-50 p-6 sm:p-8 text-center">
             <p className="text-gray-500 text-sm sm:text-base">Você não possui agendamentos.</p>
           </div>
         ) : (
-          <div className="bg-white shadow overflow-hidden rounded-lg">
+          <div className="border border-gray-100 rounded-xl overflow-hidden">
             <ul className="divide-y divide-gray-200">
               {schedules.map((schedule) => (
                 <li key={schedule._id} className="px-4 sm:px-6 py-4">

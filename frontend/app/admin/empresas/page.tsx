@@ -126,8 +126,8 @@ export default function EmpresasPage() {
   return (
     <Layout>
       {(authLoading || loading) && <Loading text="Carregando empresas..." />}
-      <div className="min-w-0">
-        <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 mb-4 sm:mb-6">
+      <div className="bg-white rounded-xl sm:rounded-2xl shadow-xl sm:shadow-2xl p-4 sm:p-6 md:p-8 overflow-hidden min-w-0 space-y-4 sm:space-y-6">
+        <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4">
           <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">Empresas</h1>
           <button
             onClick={openNewModal}
@@ -138,8 +138,8 @@ export default function EmpresasPage() {
         </div>
 
         {/* Tabela */}
-        <div className="overflow-x-auto rounded-lg border border-gray-200">
-          <div className="bg-white shadow-md min-w-[640px]">
+        <div className="overflow-x-auto rounded-xl border border-gray-100">
+          <div className="min-w-[640px] bg-gray-50/50">
           <table className="min-w-full divide-y divide-gray-200">
             <thead className="bg-gray-50">
               <tr>

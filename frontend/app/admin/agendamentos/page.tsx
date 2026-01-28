@@ -83,10 +83,10 @@ export default function AgendamentosPage() {
   return (
     <Layout>
       {loading && <Loading text="Carregando agendamentos..." />}
-      <div className="min-w-0">
-        <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-4 sm:mb-6">Agendamentos</h1>
+      <div className="bg-white rounded-xl sm:rounded-2xl shadow-xl sm:shadow-2xl p-4 sm:p-6 md:p-8 overflow-hidden min-w-0 space-y-4 sm:space-y-6">
+        <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">Agendamentos</h1>
 
-        <div className="bg-white shadow rounded-lg p-4 sm:p-6 mb-4 sm:mb-6">
+        <div className="border border-gray-100 rounded-xl bg-gray-50/50 p-4 sm:p-6">
           <h2 className="text-base sm:text-lg font-semibold mb-3 sm:mb-4">Filtros</h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 sm:gap-4">
             <div>
@@ -124,8 +124,8 @@ export default function AgendamentosPage() {
           </div>
         </div>
 
-        <div className="bg-white shadow overflow-hidden rounded-lg">
-          <ul className="divide-y divide-gray-200">
+        <div className="border border-gray-100 rounded-xl overflow-hidden">
+          <ul className="divide-y divide-gray-200 bg-white">
             {schedules.map((schedule) => (
               <li key={schedule._id} className="px-4 sm:px-6 py-4">
                 <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3">
