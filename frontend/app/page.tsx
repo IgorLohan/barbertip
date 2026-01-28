@@ -3,6 +3,7 @@
 import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '@/contexts/AuthContext';
+import Loading from '@/components/Loading';
 
 export default function Home() {
   const router = useRouter();
@@ -25,9 +26,5 @@ export default function Home() {
     }
   }, [isAuthenticated, loading, user, router]);
 
-  return (
-    <div className="min-h-screen flex items-center justify-center">
-      <div className="text-center">Carregando...</div>
-    </div>
-  );
+  return <Loading fullScreen text="Carregando..." />;
 }

@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import './globals.css';
 import { AuthProvider } from '@/contexts/AuthContext';
+import PrelineScript from '@/components/PrelineScript';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -19,6 +20,7 @@ export default function RootLayout({
     <html lang="pt-BR">
       <body className={`${inter.className} bg-gradient-to-br from-primary-600 via-primary-700 to-primary-900 min-h-screen`}>
         <AuthProvider>{children}</AuthProvider>
+        <PrelineScript />
       </body>
     </html>
   );

@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import Layout from '@/components/Layout';
+import Loading from '@/components/Loading';
 import api from '@/lib/api';
 import { format } from 'date-fns';
 
@@ -79,16 +80,9 @@ export default function AgendamentosPage() {
     }
   };
 
-  if (loading) {
-    return (
-      <Layout>
-        <div className="text-center py-12">Carregando...</div>
-      </Layout>
-    );
-  }
-
   return (
     <Layout>
+      {loading && <Loading text="Carregando agendamentos..." />}
       <div className="px-4 py-6 sm:px-0">
         <h1 className="text-3xl font-bold text-gray-900 mb-6">Agendamentos</h1>
 

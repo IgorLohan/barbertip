@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import Layout from '@/components/Layout';
+import Loading from '@/components/Loading';
 import api from '@/lib/api';
 import { useAuth } from '@/contexts/AuthContext';
 import { useRouter } from 'next/navigation';
@@ -238,14 +239,6 @@ export default function DashboardPage() {
     }
   };
 
-  if (authLoading || loading) {
-    return (
-      <Layout>
-        <div className="text-center py-12">Carregando...</div>
-      </Layout>
-    );
-  }
-
   if (user?.role !== 'ADMIN' && user?.role !== 'GERENTE') {
     return null;
   }
@@ -254,6 +247,7 @@ export default function DashboardPage() {
   if (user?.role === 'ADMIN') {
     return (
       <Layout>
+        {(authLoading || loading) && <Loading text="Carregando dashboard..." />}
         <div className="px-4 py-6 sm:px-0">
           <div className="flex justify-between items-center mb-6">
             <h1 className="text-3xl font-bold text-gray-900">Dashboard Administrativo</h1>
@@ -444,6 +438,7 @@ export default function DashboardPage() {
   // Renderizar dashboard do GERENTE
   return (
     <Layout>
+      {(authLoading || loading) && <Loading text="Carregando dashboard..." />}
       <div className="px-4 py-6 sm:px-0">
         <div className="flex justify-between items-center mb-6">
           <h1 className="text-3xl font-bold text-gray-900">Dashboard Gerencial</h1>

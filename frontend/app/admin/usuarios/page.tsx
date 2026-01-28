@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import Layout from '@/components/Layout';
+import Loading from '@/components/Loading';
 import Modal from '@/components/Modal';
 import api from '@/lib/api';
 import { useAuth } from '@/contexts/AuthContext';
@@ -144,20 +145,13 @@ export default function UsuariosPage() {
     setFormData({ name: '', email: '', password: '', role: 'GERENTE', companyId: '' });
   };
 
-  if (authLoading || loading) {
-    return (
-      <Layout>
-        <div className="text-center py-12">Carregando...</div>
-      </Layout>
-    );
-  }
-
   if (user?.role !== 'ADMIN') {
     return null;
   }
 
   return (
     <Layout>
+      {(authLoading || loading) && <Loading text="Carregando usuários..." />}
       <div className="px-4 py-6 sm:px-0">
         <div className="flex justify-between items-center mb-6">
           <h1 className="text-3xl font-bold text-gray-900">Usuários</h1>

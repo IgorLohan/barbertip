@@ -1,6 +1,7 @@
 'use client';
 
 import Layout from '@/components/Layout';
+import Loading from '@/components/Loading';
 import Link from 'next/link';
 import { useAuth } from '@/contexts/AuthContext';
 import { useRouter } from 'next/navigation';
@@ -16,20 +17,13 @@ export default function AdminPage() {
     }
   }, [user, loading, router]);
 
-  if (loading) {
-    return (
-      <Layout>
-        <div className="text-center py-12">Carregando...</div>
-      </Layout>
-    );
-  }
-
   if (user && user.role !== 'ADMIN' && user.role !== 'GERENTE' && user.role !== 'BARBEIRO') {
     return null;
   }
 
   return (
     <Layout>
+      {loading && <Loading text="Carregando..." />}
       <div className="px-4 py-6 sm:px-0">
         <h1 className="text-3xl font-bold text-gray-900 mb-6">Painel Administrativo</h1>
 
