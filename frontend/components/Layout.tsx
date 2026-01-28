@@ -144,7 +144,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
 
       {/* Sidebar desktop: sempre visível em md+ */}
       <aside
-        className={`hidden md:flex flex-col fixed left-0 top-0 h-screen bg-white/95 backdrop-blur-sm shadow-lg transition-all duration-300 ease-in-out z-30 ${
+        className={`hidden md:flex flex-col fixed left-0 top-2 bottom-2 rounded-r-2xl bg-white/95 backdrop-blur-sm shadow-lg transition-all duration-300 ease-in-out z-30 ${
           isExpanded ? 'w-64' : 'w-20'
         }`}
       >
@@ -153,7 +153,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
 
       {/* Drawer mobile */}
       <aside
-        className={`fixed left-0 top-0 h-full w-[min(100vw-2rem,280px)] max-w-full bg-white shadow-xl z-30 md:hidden flex flex-col transition-transform duration-200 ease-out ${
+        className={`fixed left-0 top-2 bottom-2 w-[min(100vw-2rem,280px)] max-w-full rounded-r-2xl bg-white shadow-xl z-30 md:hidden flex flex-col transition-transform duration-200 ease-out ${
           mobileMenuOpen ? 'translate-x-0' : '-translate-x-full'
         }`}
       >
