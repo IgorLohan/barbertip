@@ -14,6 +14,13 @@ export default function Home() {
   const [citySuggestions, setCitySuggestions] = useState<string[]>([]);
   const [citySearchLoading, setCitySearchLoading] = useState(false);
   const [estabelecimento, setEstabelecimento] = useState('');
+  const [estabSuggestions, setEstabSuggestions] = useState<{ _id: string; name: string }[]>([]);
+  const [estabSearchLoading, setEstabSearchLoading] = useState(false);
+  const [estabQuery, setEstabQuery] = useState('');
+  const [showEstabDropdown, setShowEstabDropdown] = useState(false);
+  const [estabInputFocused, setEstabInputFocused] = useState(false);
+  const [estabSearchError, setEstabSearchError] = useState(false);
+  const lastEstabSearchRef = useRef<string | null>(null);
   const [cidadeEstado, setCidadeEstado] = useState('');
   const [cityQuery, setCityQuery] = useState('');
   const [showCityDropdown, setShowCityDropdown] = useState(false);
@@ -26,6 +33,12 @@ export default function Home() {
   const noResults = hasQuery && !citySearchLoading && citySuggestions.length === 0 && lastSearchRef.current === t;
   const promptMinChars = cityInputFocused && !hasQuery;
   const showDropdown = showCityDropdown && (citySearchLoading || citySuggestions.length > 0 || noResults || citySearchError || promptMinChars);
+
+  const et = estabQuery.trim();
+  const estabHasQuery = et.length >= 2;
+  const estabNoResults = estabHasQuery && !estabSearchLoading && estabSuggestions.length === 0 && lastEstabSearchRef.current === et;
+  const estabPromptMinChars = estabInputFocused && !estabHasQuery;
+  const estabDropdownVisible = showEstabDropdown && (estabSearchLoading || estabSuggestions.length > 0 || estabNoResults || estabSearchError || estabPromptMinChars);
 
   useEffect(() => {
     if (!loading) {
@@ -77,6 +90,40 @@ export default function Home() {
     }, 300);
     return () => clearTimeout(id);
   }, [showLanding, cityQuery]);
+
+  useEffect(() => {
+    if (!showLanding) return;
+    const et = estabQuery.trim();
+    if (et.length < 2) {
+      lastEstabSearchRef.current = null;
+      setEstabSuggestions([]);
+      setEstabSearchLoading(false);
+      setEstabSearchError(false);
+      return;
+    }
+    setEstabSearchLoading(true);
+    setEstabSearchError(false);
+    const id = setTimeout(() => {
+      lastEstabSearchRef.current = et;
+      api
+        .get<{ _id: string; name: string }[]>('/company-search', { params: { q: et } })
+        .then((res) => {
+          if (lastEstabSearchRef.current !== et) return;
+          const arr = Array.isArray(res.data) ? res.data : [];
+          setEstabSuggestions(arr);
+          setEstabSearchError(false);
+        })
+        .catch(() => {
+          if (lastEstabSearchRef.current !== et) return;
+          setEstabSuggestions([]);
+          setEstabSearchError(true);
+        })
+        .finally(() => {
+          if (lastEstabSearchRef.current === et) setEstabSearchLoading(false);
+        });
+    }, 300);
+    return () => clearTimeout(id);
+  }, [showLanding, estabQuery]);
 
   if (loading || !showLanding) {
     return (
@@ -146,8 +193,9 @@ export default function Home() {
               <form
                 onSubmit={(e) => {
                   e.preventDefault();
+                  const estab = estabelecimento || estabQuery;
                   const local = cidadeEstado || cityQuery;
-                  router.push(`/agendar?estabelecimento=${encodeURIComponent(estabelecimento)}&local=${encodeURIComponent(local)}`);
+                  router.push(`/agendar?estabelecimento=${encodeURIComponent(estab)}&local=${encodeURIComponent(local)}`);
                 }}
                 className="flex flex-col sm:flex-row gap-0 bg-white rounded-tl-none rounded-tr-xl rounded-br-none rounded-bl-xl shadow-lg border border-white/20 overflow-visible"
               >
@@ -159,11 +207,71 @@ export default function Home() {
                   </span>
                   <input
                     type="text"
-                    value={estabelecimento}
-                    onChange={(e) => setEstabelecimento(e.target.value)}
+                    value={estabQuery || estabelecimento}
+                    onChange={(e) => {
+                      setEstabQuery(e.target.value);
+                      setEstabelecimento('');
+                      setShowEstabDropdown(true);
+                    }}
+                    onFocus={() => {
+                      setShowEstabDropdown(true);
+                      setEstabInputFocused(true);
+                    }}
+                    onBlur={() => {
+                      setTimeout(() => {
+                        setShowEstabDropdown(false);
+                        setEstabInputFocused(false);
+                      }, 180);
+                    }}
                     placeholder="Estabelecimento ou serviço"
                     className="w-full pl-11 pr-4 py-3.5 text-gray-900 placeholder-gray-400 focus:ring-2 focus:ring-primary-500 focus:ring-inset rounded-tl-none rounded-tr-xl sm:rounded-t-none sm:rounded-tl-none sm:rounded-tr-none sm:rounded-br-none sm:rounded-bl-xl border-0 text-sm sm:text-base"
                   />
+                  {estabDropdownVisible && (
+                    <div className="absolute top-full left-0 right-0 mt-1 bg-white rounded-lg shadow-xl border border-gray-200 py-1 z-[100] max-h-48 overflow-auto">
+                      {estabSearchLoading ? (
+                        <div className="flex items-center gap-2 px-4 py-3 text-gray-500 text-sm">
+                          <span className="animate-spin size-4 border-2 border-gray-300 border-t-primary-600 rounded-full" />
+                          Carregando…
+                        </div>
+                      ) : estabSearchError ? (
+                        <div className="px-4 py-3 text-gray-500 text-sm">
+                          Erro ao buscar. Tente novamente.
+                        </div>
+                      ) : estabSuggestions.length > 0 ? (
+                        <>
+                          {estabSuggestions.map((c) => (
+                            <button
+                              key={c._id}
+                              type="button"
+                              onMouseDown={(e) => e.preventDefault()}
+                              onClick={() => {
+                                setEstabelecimento(c.name);
+                                setEstabQuery(c.name);
+                                setShowEstabDropdown(false);
+                              }}
+                              className="w-full flex items-center gap-2 px-4 py-2.5 text-left text-gray-700 hover:bg-gray-50 transition-colors text-sm"
+                            >
+                              <span className="text-gray-400 shrink-0">
+                                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                                </svg>
+                              </span>
+                              {c.name}
+                            </button>
+                          ))}
+                          <p className="px-4 py-2 text-right text-xs text-gray-400">Sugestões de estabelecimentos</p>
+                        </>
+                      ) : estabNoResults ? (
+                        <div className="px-4 py-3 text-gray-500 text-sm">
+                          Nenhum resultado para &quot;{estabQuery.trim()}&quot;
+                        </div>
+                      ) : estabPromptMinChars ? (
+                        <div className="px-4 py-3 text-gray-500 text-sm">
+                          Digite pelo menos 2 caracteres para buscar
+                        </div>
+                      ) : null}
+                    </div>
+                  )}
                 </div>
                 <div className="flex-1 relative flex items-center sm:border-r border-gray-200">
                   <span className="absolute left-4 text-gray-400 pointer-events-none">

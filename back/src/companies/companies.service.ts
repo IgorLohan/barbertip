@@ -40,6 +40,27 @@ export class CompaniesService {
     return this.companyModel.find({}).sort({ name: 1 }).exec();
   }
 
+  private normalize(s: string): string {
+    return s
+      .normalize('NFD')
+      .replace(/[\u0300-\u036f]/g, '')
+      .toLowerCase();
+  }
+
+  async searchByName(query: string): Promise<Company[]> {
+    const q = query?.trim();
+    if (!q) return [];
+    const nq = this.normalize(q);
+    const all = await this.companyModel
+      .find({ active: true })
+      .sort({ name: 1 })
+      .lean()
+      .exec();
+    return (all as Company[])
+      .filter((c) => this.normalize(c.name).includes(nq))
+      .slice(0, 15);
+  }
+
   async findOne(id: string): Promise<Company> {
     return this.companyModel.findById(id).exec();
   }
