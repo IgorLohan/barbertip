@@ -356,26 +356,40 @@ export default function Home() {
                 </button>
               </form>
             </div>
+          </div>
+        </div>
+      </section>
 
-            <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center px-4">
-              <a
-                href="https://wa.me/5583986854857?text=Olá!%20Gostaria%20de%20agendar%20um%20horário"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="py-3 sm:py-4 px-6 sm:px-8 inline-flex items-center gap-x-2 text-base sm:text-lg font-semibold rounded-lg border border-transparent bg-white text-primary-700 hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none transition-colors shadow-xl"
-              >
-                Agendar Agora
-                <svg className="flex-shrink-0 w-4 h-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="m9 18 6-6-6-6"/>
-                </svg>
-              </a>
-              <Link
-                href="#sobre"
-                className="py-3 sm:py-4 px-6 sm:px-8 inline-flex items-center gap-x-2 text-base sm:text-lg font-semibold rounded-lg border-2 border-white text-white hover:bg-white/10 disabled:opacity-50 disabled:pointer-events-none transition-colors"
-              >
-                Saiba Mais
-              </Link>
-            </div>
+      {/* Action Buttons Section */}
+      <section className="py-8 sm:py-12 bg-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-8">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+              Transforme seu estabelecimento em um negócio de sucesso
+            </h2>
+            <p className="text-lg sm:text-xl text-gray-600 max-w-2xl mx-auto">
+              Gerencie seus agendamentos, funcionários e clientes de forma simples e eficiente. 
+              Aumente sua receita e reduza faltas com a plataforma completa de gestão.
+            </p>
+          </div>
+          <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center">
+            <a
+              href="https://wa.me/5583986854857?text=Olá!%20Gostaria%20de%20agendar%20um%20horário"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="py-3 sm:py-4 px-6 sm:px-8 inline-flex items-center gap-x-2 text-base sm:text-lg font-semibold rounded-lg border border-transparent bg-primary-700 text-white hover:bg-primary-800 disabled:opacity-50 disabled:pointer-events-none transition-colors shadow-xl"
+            >
+              Agendar Agora
+              <svg className="flex-shrink-0 w-4 h-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="m9 18 6-6-6-6"/>
+              </svg>
+            </a>
+            <Link
+              href="#sobre"
+              className="py-3 sm:py-4 px-6 sm:px-8 inline-flex items-center gap-x-2 text-base sm:text-lg font-semibold rounded-lg border-2 border-primary-700 text-primary-700 hover:bg-primary-50 disabled:opacity-50 disabled:pointer-events-none transition-colors"
+            >
+              Saiba Mais
+            </Link>
           </div>
         </div>
       </section>
@@ -394,7 +408,7 @@ export default function Home() {
               Por que escolher o BarberTip?
             </h2>
             <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-              A solução completa para gerenciar sua barbearia e facilitar a vida dos seus clientes
+              A solução completa para gerenciar seu estabelecimento e facilitar a vida dos seus clientes
             </p>
           </div>
 
@@ -422,7 +436,7 @@ export default function Home() {
                 </div>
                 <h3 className="text-lg sm:text-xl font-semibold text-gray-800 mb-2">Gestão Completa</h3>
                 <p className="text-sm sm:text-base text-gray-600">
-                  Controle total sobre agendamentos, barbeiros, serviços e muito mais em um só lugar
+                  Controle total sobre agendamentos, funcionários, serviços e muito mais em um só lugar
                 </p>
               </div>
             </div>
@@ -434,9 +448,9 @@ export default function Home() {
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                   </svg>
                 </div>
-                <h3 className="text-lg sm:text-xl font-semibold text-gray-800 mb-2">Aumente sua Receita</h3>
+                <h3 className="text-lg sm:text-xl font-semibold text-gray-800 mb-2">Aumente sua Receita e a Satisfação</h3>
                 <p className="text-sm sm:text-base text-gray-600">
-                  Reduza faltas, otimize horários e aumente a satisfação dos seus clientes
+                  Reduza faltas, otimize horários e aumente a satisfação dos seus funcionários e de seus clientes
                 </p>
               </div>
             </div>
@@ -565,10 +579,10 @@ export default function Home() {
             </span>
           </div>
           <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-4 sm:mb-6">
-            Pronto para transformar sua barbearia?
+            Pronto para transformar seu estabelecimento?
           </h2>
           <p className="text-lg sm:text-xl text-primary-100 mb-6 sm:mb-8">
-            Junte-se a centenas de barbearias que já usam o BarberTip
+            Junte-se a centenas de estabelecimentos que já usam o BarberTip
           </p>
           <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center px-4">
             <a
@@ -601,7 +615,7 @@ export default function Home() {
                 />
               </div>
               <p className="text-xs sm:text-sm text-gray-400">
-                Sistema completo de agendamento para barbearias. Moderno, rápido e confiável.
+                Sistema completo de agendamento para estabelecimentos. Moderno, rápido e confiável.
               </p>
             </div>
 
