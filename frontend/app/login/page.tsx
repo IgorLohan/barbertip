@@ -44,9 +44,9 @@ export default function LoginPage() {
             <Image
               src="/logo.png"
               alt="BarberTip Logo"
-              width={240}
-              height={240}
-              className="object-contain w-40 h-40 sm:w-56 sm:h-56 md:w-64 md:h-64"
+              width={500}
+              height={143}
+              className="object-contain h-32 sm:h-36 md:h-40 lg:h-44"
               priority
             />
           </div>

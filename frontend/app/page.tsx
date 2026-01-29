@@ -47,23 +47,22 @@ export default function Home() {
               <Image
                 src="/logo.png"
                 alt="BarberTip"
-                width={40}
-                height={40}
-                className="object-contain"
+                width={180}
+                height={51}
+                className="object-contain h-10 sm:h-12"
+                priority
               />
-              <span className="text-xl font-bold text-primary-700">BarberTip</span>
             </div>
             
-            <div className="hidden md:flex items-center gap-x-7">
-              <a href="#servicos" className="text-gray-600 hover:text-primary-700 font-medium transition-colors">Serviços</a>
-              <a href="#sobre" className="text-gray-600 hover:text-primary-700 font-medium transition-colors">Sobre</a>
-              <a href="#contato" className="text-gray-600 hover:text-primary-700 font-medium transition-colors">Contato</a>
+            <div className="hidden md:flex items-center gap-x-7 h-full">
+              <a href="#sobre" className="text-gray-600 hover:text-primary-700 font-medium transition-colors flex items-center h-full">Sobre</a>
+              <a href="#contato" className="text-gray-600 hover:text-primary-700 font-medium transition-colors flex items-center h-full">Contato</a>
             </div>
 
-            <div className="flex items-center gap-2 sm:gap-4">
+            <div className="flex items-center gap-2 sm:gap-4 h-full">
               <Link
                 href="/login"
-                className="text-gray-600 hover:text-primary-700 font-medium transition-colors text-sm sm:text-base"
+                className="text-gray-600 hover:text-primary-700 font-medium transition-colors text-sm sm:text-base flex items-center h-full"
               >
                 Entrar
               </Link>
@@ -222,48 +221,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Services Section */}
-      <section id="servicos" className="py-16 sm:py-24 bg-gray-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12">
-            <span className="inline-flex items-center gap-x-1.5 py-1.5 px-3 sm:px-4 rounded-full text-xs sm:text-sm font-medium bg-primary-100 text-primary-800 mb-4">
-              <svg className="w-3.5 h-3.5" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
-                <path d="M5.5 7a.5.5 0 0 0 0 1h5a.5.5 0 0 0 0-1h-5zM5 9.5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5zm0 2a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 0 1h-2a.5.5 0 0 1-.5-.5z"/>
-                <path d="M9.5 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V4.5L9.5 0zm0 1v2A1.5 1.5 0 0 0 11 4.5h2V14a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h5.5z"/>
-              </svg>
-              Serviços
-            </span>
-            <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-4">
-              Serviços Disponíveis
-            </h2>
-            <p className="text-lg text-gray-600">
-              Encontre os melhores profissionais perto de você
-            </p>
-          </div>
-
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 sm:gap-6">
-            {[
-              { name: 'Corte Masculino', icon: '✂️' },
-              { name: 'Barba', icon: '🧔' },
-              { name: 'Corte + Barba', icon: '💇' },
-              { name: 'Sobrancelha', icon: '👁️' },
-              { name: 'Pigmentação', icon: '🎨' },
-              { name: 'Relaxamento', icon: '✨' },
-              { name: 'Hidratação', icon: '💧' },
-              { name: 'Tratamentos', icon: '🔬' },
-            ].map((service, idx) => (
-              <div
-                key={idx}
-                className="group flex flex-col justify-center items-center bg-white border border-gray-200 shadow-sm rounded-xl p-6 hover:shadow-md hover:border-primary-300 transition-all cursor-pointer"
-              >
-                <div className="text-4xl mb-3">{service.icon}</div>
-                <h3 className="font-semibold text-gray-800 text-sm sm:text-base">{service.name}</h3>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
       {/* Testimonials Section */}
       <section className="py-16 sm:py-24 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -371,15 +328,14 @@ export default function Home() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 sm:gap-8 mb-6 sm:mb-8">
             <div className="sm:col-span-2 md:col-span-1">
-              <div className="flex items-center gap-2 mb-3 sm:mb-4">
+              <div className="flex items-center mb-3 sm:mb-4">
                 <Image
                   src="/logo.png"
                   alt="BarberTip"
-                  width={32}
-                  height={32}
-                  className="object-contain"
+                  width={140}
+                  height={40}
+                  className="object-contain h-10 sm:h-12"
                 />
-                <span className="text-lg sm:text-xl font-bold text-white">BarberTip</span>
               </div>
               <p className="text-xs sm:text-sm text-gray-400">
                 Sistema completo de agendamento para barbearias. Moderno, rápido e confiável.
@@ -389,9 +345,6 @@ export default function Home() {
             <div>
               <h4 className="text-white font-semibold mb-3 sm:mb-4 text-sm sm:text-base">Links Rápidos</h4>
               <ul className="space-y-2.5 text-xs sm:text-sm">
-                <li>
-                  <a href="#servicos" className="inline-flex gap-x-2 text-gray-400 hover:text-gray-200 transition-colors">Serviços</a>
-                </li>
                 <li>
                   <a href="#sobre" className="inline-flex gap-x-2 text-gray-400 hover:text-gray-200 transition-colors">Sobre</a>
                 </li>

@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import { useAuth } from '@/contexts/AuthContext';
 import { useRouter, usePathname } from 'next/navigation';
 import Link from 'next/link';
+import Image from 'next/image';
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   const { user, logout, isAuthenticated } = useAuth();
@@ -65,7 +66,15 @@ export default function Layout({ children }: { children: React.ReactNode }) {
   const NavContent = ({ isMobile = false }: { isMobile?: boolean }) => (
     <>
       <div className="flex items-center justify-between p-4 border-b md:border-b-0">
-        {(isExpanded || isMobile) && <h1 className="text-lg md:text-xl font-bold text-primary-700 truncate">BarberTip</h1>}
+        {(isExpanded || isMobile) && (
+          <Image
+            src="/logo.png"
+            alt="BarberTip"
+            width={140}
+            height={40}
+            className="object-contain h-8 md:h-10"
+          />
+        )}
         {!isMobile && (
           <button
             type="button"
@@ -172,7 +181,14 @@ export default function Layout({ children }: { children: React.ReactNode }) {
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
           </svg>
         </button>
-        <span className="font-bold text-primary-700 truncate">BarberTip</span>
+        <Image
+          src="/logo.png"
+          alt="BarberTip"
+          width={140}
+          height={40}
+          className="object-contain h-8"
+          priority
+        />
       </header>
 
       {/* Main */}
