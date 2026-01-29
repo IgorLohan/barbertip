@@ -65,7 +65,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
   const NavContent = ({ isMobile = false }: { isMobile?: boolean }) => (
     <>
       <div className="flex items-center justify-between p-4 border-b md:border-b-0">
-        {(isExpanded || isMobile) && <h1 className="text-lg md:text-xl font-bold text-primary-600 truncate">BarberTip</h1>}
+        {(isExpanded || isMobile) && <h1 className="text-lg md:text-xl font-bold text-primary-700 truncate">BarberTip</h1>}
         {!isMobile && (
           <button
             type="button"
@@ -99,7 +99,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
             <Link
               key={item.href}
               href={item.href}
-              className={`flex items-center gap-3 px-4 py-3 rounded-lg transition-colors ${isActive ? 'bg-primary-600 text-white' : 'text-gray-700 hover:bg-gray-100'}`}
+              className={`flex items-center gap-3 px-4 py-3 rounded-lg transition-colors ${isActive ? 'bg-primary-700 text-white' : 'text-gray-700 hover:bg-gray-100'}`}
               title={!showLabel ? item.label : ''}
             >
               <span className="flex-shrink-0">{item.icon}</span>
@@ -172,7 +172,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
           </svg>
         </button>
-        <span className="font-bold text-primary-600 truncate">BarberTip</span>
+        <span className="font-bold text-primary-700 truncate">BarberTip</span>
       </header>
 
       {/* Main */}

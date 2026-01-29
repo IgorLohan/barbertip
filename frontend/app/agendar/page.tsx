@@ -258,7 +258,7 @@ export default function AgendarPage() {
                             isDisabled
                               ? 'bg-gray-100 text-gray-400 border-gray-200 cursor-not-allowed'
                               : selectedSlot === slot
-                                ? 'bg-primary-600 text-white border-primary-600'
+                                ? 'bg-primary-700 text-white border-primary-700'
                                 : 'bg-white text-gray-700 border-gray-300 hover:bg-gray-50'
                           }`}
                           title={isDisabled ? 'Horário indisponível' : ''}
@@ -293,7 +293,7 @@ export default function AgendarPage() {
               <button
                 type="submit"
                 disabled={loading || !selectedSlot}
-                className="w-full sm:w-auto bg-primary-600 hover:bg-primary-700 text-white font-bold py-2.5 sm:py-2 px-4 rounded focus:outline-none focus:shadow-outline disabled:opacity-50"
+                className="w-full sm:w-auto bg-primary-700 hover:bg-primary-800 text-white font-bold py-2.5 sm:py-2 px-4 rounded focus:outline-none focus:shadow-outline disabled:opacity-50"
               >
                 {loading ? 'Agendando...' : 'Confirmar Agendamento'}
               </button>

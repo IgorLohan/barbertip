@@ -320,7 +320,7 @@ export default function BarbeirosPage() {
           <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">Barbeiros</h1>
           <button
             onClick={openNewModal}
-            className="w-full sm:w-auto bg-primary-600 hover:bg-primary-700 text-white px-4 py-2 rounded-md transition-colors"
+            className="w-full sm:w-auto bg-primary-700 hover:bg-primary-800 text-white px-4 py-2 rounded-md transition-colors"
           >
             Novo Barbeiro
           </button>
@@ -437,7 +437,7 @@ export default function BarbeirosPage() {
                     type="text"
                     value={newUserData.name}
                     onChange={(e) => setNewUserData({ ...newUserData, name: e.target.value })}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm text-gray-900 bg-white focus:outline-none focus:ring-primary-500 focus:border-primary-500"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm text-gray-900 bg-white focus:outline-none focus:ring-primary-600 focus:border-primary-700"
                     required
                     placeholder="Nome do barbeiro"
                   />
@@ -450,7 +450,7 @@ export default function BarbeirosPage() {
                     type="email"
                     value={newUserData.email}
                     onChange={(e) => setNewUserData({ ...newUserData, email: e.target.value })}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm text-gray-900 bg-white focus:outline-none focus:ring-primary-500 focus:border-primary-500"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm text-gray-900 bg-white focus:outline-none focus:ring-primary-600 focus:border-primary-700"
                     required
                     placeholder="email@exemplo.com"
                   />
@@ -463,7 +463,7 @@ export default function BarbeirosPage() {
                     type="password"
                     value={newUserData.password}
                     onChange={(e) => setNewUserData({ ...newUserData, password: e.target.value })}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm text-gray-900 bg-white focus:outline-none focus:ring-primary-500 focus:border-primary-500"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm text-gray-900 bg-white focus:outline-none focus:ring-primary-600 focus:border-primary-700"
                     required
                     placeholder="Mínimo 6 caracteres"
                     minLength={6}
@@ -482,7 +482,7 @@ export default function BarbeirosPage() {
                     type="text"
                     value={editUserData.name}
                     onChange={(e) => setEditUserData({ ...editUserData, name: e.target.value })}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm text-gray-900 bg-white focus:outline-none focus:ring-primary-500 focus:border-primary-500"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm text-gray-900 bg-white focus:outline-none focus:ring-primary-600 focus:border-primary-700"
                     required
                     placeholder="Nome do barbeiro"
                   />
@@ -495,7 +495,7 @@ export default function BarbeirosPage() {
                     type="email"
                     value={editUserData.email}
                     onChange={(e) => setEditUserData({ ...editUserData, email: e.target.value })}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm text-gray-900 bg-white focus:outline-none focus:ring-primary-500 focus:border-primary-500"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm text-gray-900 bg-white focus:outline-none focus:ring-primary-600 focus:border-primary-700"
                     required
                     placeholder="email@exemplo.com"
                   />
@@ -508,7 +508,7 @@ export default function BarbeirosPage() {
                     type="password"
                     value={editUserData.password}
                     onChange={(e) => setEditUserData({ ...editUserData, password: e.target.value })}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm text-gray-900 bg-white focus:outline-none focus:ring-primary-500 focus:border-primary-500"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm text-gray-900 bg-white focus:outline-none focus:ring-primary-600 focus:border-primary-700"
                     placeholder="Mínimo 6 caracteres"
                     minLength={6}
                   />
@@ -531,7 +531,7 @@ export default function BarbeirosPage() {
                         type="checkbox"
                         checked={formData.serviceIds.includes(service._id)}
                         onChange={() => toggleService(service._id)}
-                        className="rounded border-gray-300 text-primary-600 focus:ring-primary-500"
+                        className="rounded border-gray-300 text-primary-700 focus:ring-primary-600"
                       />
                       <span className="ml-2 text-sm text-gray-700">{service.name}</span>
                     </label>
@@ -548,7 +548,7 @@ export default function BarbeirosPage() {
                 <button
                   type="button"
                   onClick={addWorkingHour}
-                  className="text-sm text-primary-600 hover:text-primary-700"
+                  className="text-sm text-primary-700 hover:text-primary-800"
                 >
                   + Adicionar horário
                 </button>
@@ -562,7 +562,7 @@ export default function BarbeirosPage() {
                         onChange={(e) =>
                           updateWorkingHour(index, 'dayOfWeek', parseInt(e.target.value))
                         }
-                        className="flex-1 px-2 py-1 text-sm border border-gray-300 rounded focus:outline-none focus:ring-primary-500"
+                        className="flex-1 px-2 py-1 text-sm border border-gray-300 rounded focus:outline-none focus:ring-primary-600"
                       >
                         {DAYS_OF_WEEK.map((day, idx) => (
                           <option key={idx} value={idx}>
@@ -574,14 +574,14 @@ export default function BarbeirosPage() {
                         type="time"
                         value={wh.startTime}
                         onChange={(e) => updateWorkingHour(index, 'startTime', e.target.value)}
-                        className="px-2 py-1 text-sm text-gray-900 bg-white border border-gray-300 rounded focus:outline-none focus:ring-primary-500"
+                        className="px-2 py-1 text-sm text-gray-900 bg-white border border-gray-300 rounded focus:outline-none focus:ring-primary-600"
                       />
                       <span className="text-sm text-gray-700">até</span>
                       <input
                         type="time"
                         value={wh.endTime}
                         onChange={(e) => updateWorkingHour(index, 'endTime', e.target.value)}
-                        className="px-2 py-1 text-sm text-gray-900 bg-white border border-gray-300 rounded focus:outline-none focus:ring-primary-500"
+                        className="px-2 py-1 text-sm text-gray-900 bg-white border border-gray-300 rounded focus:outline-none focus:ring-primary-600"
                       />
                       <button
                         type="button"
@@ -606,7 +606,7 @@ export default function BarbeirosPage() {
             <div className="flex gap-2 pt-4">
               <button
                 type="submit"
-                className="flex-1 bg-primary-600 hover:bg-primary-700 text-white px-4 py-2 rounded-md transition-colors"
+                className="flex-1 bg-primary-700 hover:bg-primary-800 text-white px-4 py-2 rounded-md transition-colors"
               >
                 Salvar
               </button>

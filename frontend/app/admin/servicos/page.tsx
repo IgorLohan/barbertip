@@ -117,7 +117,7 @@ export default function ServicosPage() {
           <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">Serviços</h1>
           <button
             onClick={openNewModal}
-            className="w-full sm:w-auto bg-primary-600 hover:bg-primary-700 text-white px-4 py-2 rounded-md transition-colors"
+            className="w-full sm:w-auto bg-primary-700 hover:bg-primary-800 text-white px-4 py-2 rounded-md transition-colors"
           >
             Novo Serviço
           </button>
@@ -207,7 +207,7 @@ export default function ServicosPage() {
                 type="text"
                 value={formData.name}
                 onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm text-gray-900 bg-white focus:outline-none focus:ring-primary-500 focus:border-primary-500"
+                className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm text-gray-900 bg-white focus:outline-none focus:ring-primary-600 focus:border-primary-700"
                 required
               />
             </div>
@@ -219,7 +219,7 @@ export default function ServicosPage() {
                 type="number"
                 value={formData.duration}
                 onChange={(e) => setFormData({ ...formData, duration: e.target.value })}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm text-gray-900 bg-white focus:outline-none focus:ring-primary-500 focus:border-primary-500"
+                className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm text-gray-900 bg-white focus:outline-none focus:ring-primary-600 focus:border-primary-700"
                 required
                 min="1"
               />
@@ -231,7 +231,7 @@ export default function ServicosPage() {
                 step="0.01"
                 value={formData.price}
                 onChange={(e) => setFormData({ ...formData, price: e.target.value })}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm text-gray-900 bg-white focus:outline-none focus:ring-primary-500 focus:border-primary-500"
+                className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm text-gray-900 bg-white focus:outline-none focus:ring-primary-600 focus:border-primary-700"
                 required
                 min="0"
               />
@@ -239,7 +239,7 @@ export default function ServicosPage() {
             <div className="flex gap-2 pt-4">
               <button
                 type="submit"
-                className="flex-1 bg-primary-600 hover:bg-primary-700 text-white px-4 py-2 rounded-md transition-colors"
+                className="flex-1 bg-primary-700 hover:bg-primary-800 text-white px-4 py-2 rounded-md transition-colors"
               >
                 Salvar
               </button>

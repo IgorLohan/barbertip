@@ -141,7 +141,7 @@ export default function EmpresasPage() {
           <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">Empresas</h1>
           <button
             onClick={openNewModal}
-            className="w-full sm:w-auto bg-primary-600 hover:bg-primary-700 text-white px-4 py-2 rounded-md transition-colors"
+            className="w-full sm:w-auto bg-primary-700 hover:bg-primary-800 text-white px-4 py-2 rounded-md transition-colors"
           >
             Nova Empresa
           </button>
@@ -258,7 +258,7 @@ export default function EmpresasPage() {
                 type="text"
                 value={formData.name}
                 onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm text-gray-900 bg-white focus:outline-none focus:ring-primary-500 focus:border-primary-500"
+                className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm text-gray-900 bg-white focus:outline-none focus:ring-primary-600 focus:border-primary-700"
                 required
                 placeholder="Nome da empresa"
               />
@@ -272,7 +272,7 @@ export default function EmpresasPage() {
                 type="text"
                 value={formData.address}
                 onChange={(e) => setFormData({ ...formData, address: e.target.value })}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm text-gray-900 bg-white focus:outline-none focus:ring-primary-500 focus:border-primary-500"
+                className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm text-gray-900 bg-white focus:outline-none focus:ring-primary-600 focus:border-primary-700"
                 placeholder="Endereço completo"
               />
             </div>
@@ -285,7 +285,7 @@ export default function EmpresasPage() {
                 type="text"
                 value={formData.phone}
                 onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm text-gray-900 bg-white focus:outline-none focus:ring-primary-500 focus:border-primary-500"
+                className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm text-gray-900 bg-white focus:outline-none focus:ring-primary-600 focus:border-primary-700"
                 placeholder="(11) 99999-9999"
               />
             </div>
@@ -300,7 +300,7 @@ export default function EmpresasPage() {
                 min="0"
                 value={formData.monthlyFee}
                 onChange={(e) => setFormData({ ...formData, monthlyFee: e.target.value })}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm text-gray-900 bg-white focus:outline-none focus:ring-primary-500 focus:border-primary-500"
+                className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm text-gray-900 bg-white focus:outline-none focus:ring-primary-600 focus:border-primary-700"
                 placeholder="0.00"
               />
             </div>
@@ -311,7 +311,7 @@ export default function EmpresasPage() {
                   type="checkbox"
                   checked={formData.active}
                   onChange={(e) => setFormData({ ...formData, active: e.target.checked })}
-                  className="rounded border-gray-300 text-primary-600 focus:ring-primary-500"
+                  className="rounded border-gray-300 text-primary-700 focus:ring-primary-600"
                 />
                 <span className="ml-2 text-sm text-gray-700">Empresa ativa</span>
               </label>
@@ -329,7 +329,7 @@ export default function EmpresasPage() {
               <button
                 type="submit"
                 disabled={saving}
-                className="px-4 py-2 bg-primary-600 hover:bg-primary-700 text-white rounded-md transition-colors disabled:opacity-50"
+                className="px-4 py-2 bg-primary-700 hover:bg-primary-800 text-white rounded-md transition-colors disabled:opacity-50"
               >
                 {saving ? 'Salvando...' : 'Salvar'}
               </button>

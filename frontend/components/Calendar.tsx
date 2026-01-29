@@ -138,7 +138,7 @@ export default function Calendar({ schedules }: CalendarProps) {
               onClick={() => setSelectedDate(day)}
               className={`aspect-square p-1 rounded-md border-2 transition-colors ${
                 isSelected
-                  ? 'border-primary-600 bg-primary-50'
+                  ? 'border-primary-700 bg-primary-100'
                   : isToday
                     ? 'border-blue-500 bg-blue-50'
                     : daySchedules.length > 0
@@ -157,7 +157,7 @@ export default function Calendar({ schedules }: CalendarProps) {
                 {daySchedules.length > 0 && (
                   <span className={`text-xs font-bold px-1.5 py-0.5 rounded-full mt-1 ${
                     isSelected 
-                      ? 'bg-primary-600 text-white' 
+                      ? 'bg-primary-700 text-white' 
                       : isToday 
                         ? 'bg-blue-600 text-white' 
                         : 'bg-primary-500 text-white'

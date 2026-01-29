@@ -51,25 +51,25 @@ export default function Home() {
                 height={40}
                 className="object-contain"
               />
-              <span className="text-xl font-bold text-primary-600">BarberTip</span>
+              <span className="text-xl font-bold text-primary-700">BarberTip</span>
             </div>
             
             <div className="hidden md:flex items-center gap-x-7">
-              <a href="#servicos" className="text-gray-600 hover:text-primary-600 font-medium transition-colors">Serviços</a>
-              <a href="#sobre" className="text-gray-600 hover:text-primary-600 font-medium transition-colors">Sobre</a>
-              <a href="#contato" className="text-gray-600 hover:text-primary-600 font-medium transition-colors">Contato</a>
+              <a href="#servicos" className="text-gray-600 hover:text-primary-700 font-medium transition-colors">Serviços</a>
+              <a href="#sobre" className="text-gray-600 hover:text-primary-700 font-medium transition-colors">Sobre</a>
+              <a href="#contato" className="text-gray-600 hover:text-primary-700 font-medium transition-colors">Contato</a>
             </div>
 
             <div className="flex items-center gap-2 sm:gap-4">
               <Link
                 href="/login"
-                className="text-gray-600 hover:text-primary-600 font-medium transition-colors text-sm sm:text-base"
+                className="text-gray-600 hover:text-primary-700 font-medium transition-colors text-sm sm:text-base"
               >
                 Entrar
               </Link>
               <Link
                 href="/login"
-                className="py-2 px-3 sm:px-4 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-primary-600 text-white hover:bg-primary-700 disabled:opacity-50 disabled:pointer-events-none transition-colors"
+                className="py-2 px-3 sm:px-4 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-primary-700 text-white hover:bg-primary-800 disabled:opacity-50 disabled:pointer-events-none transition-colors"
               >
                 Começar Agora
               </Link>
@@ -88,7 +88,7 @@ export default function Home() {
           <div className="text-center max-w-4xl mx-auto">
             <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold mb-4 sm:mb-6 leading-tight">
               Agende seu horário na{' '}
-              <span className="text-yellow-300">barbearia</span> favorita
+              <span className="text-primary-500">barbearia</span> favorita
             </h1>
             <p className="text-lg sm:text-xl md:text-2xl text-primary-100 mb-6 sm:mb-8 px-2">
               Sistema completo de agendamento online. Rápido, fácil e sempre disponível.
@@ -96,7 +96,7 @@ export default function Home() {
             <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center px-4">
               <Link
                 href="/login"
-                className="py-3 sm:py-4 px-6 sm:px-8 inline-flex items-center gap-x-2 text-base sm:text-lg font-semibold rounded-lg border border-transparent bg-white text-primary-600 hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none transition-colors shadow-xl"
+                className="py-3 sm:py-4 px-6 sm:px-8 inline-flex items-center gap-x-2 text-base sm:text-lg font-semibold rounded-lg border border-transparent bg-white text-primary-700 hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none transition-colors shadow-xl"
               >
                 Agendar Agora
                 <svg className="flex-shrink-0 w-4 h-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -210,8 +210,8 @@ export default function Home() {
               <div className="text-xs sm:text-sm text-gray-600">Agendamentos</div>
             </div>
             <div className="text-center">
-              <div className="flex justify-center items-center size-12 bg-yellow-100 rounded-lg mx-auto mb-3">
-                <svg className="w-6 h-6 text-yellow-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <div className="flex justify-center items-center size-12 bg-primary-200 rounded-lg mx-auto mb-3">
+                <svg className="w-6 h-6 text-primary-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z" />
                 </svg>
               </div>
@@ -268,7 +268,7 @@ export default function Home() {
       <section className="py-16 sm:py-24 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
-            <span className="inline-flex items-center gap-x-1.5 py-1.5 px-3 sm:px-4 rounded-full text-xs sm:text-sm font-medium bg-yellow-100 text-yellow-800 mb-4">
+            <span className="inline-flex items-center gap-x-1.5 py-1.5 px-3 sm:px-4 rounded-full text-xs sm:text-sm font-medium bg-primary-200 text-primary-800 mb-4">
               <svg className="w-3.5 h-3.5" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
                 <path d="M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z"/>
               </svg>
@@ -309,7 +309,7 @@ export default function Home() {
               >
                 <div className="flex items-center gap-1 mb-3 sm:mb-4">
                   {[...Array(testimonial.rating)].map((_, i) => (
-                    <svg key={i} className="w-4 h-4 sm:w-5 sm:h-5 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
+                    <svg key={i} className="w-4 h-4 sm:w-5 sm:h-5 text-primary-500" fill="currentColor" viewBox="0 0 20 20">
                       <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
                     </svg>
                   ))}
@@ -349,7 +349,7 @@ export default function Home() {
           <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center px-4">
             <Link
               href="/login"
-              className="py-3 sm:py-4 px-6 sm:px-8 inline-flex items-center gap-x-2 text-base sm:text-lg font-semibold rounded-lg border border-transparent bg-white text-primary-600 hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none transition-colors shadow-xl"
+                className="py-3 sm:py-4 px-6 sm:px-8 inline-flex items-center gap-x-2 text-base sm:text-lg font-semibold rounded-lg border border-transparent bg-white text-primary-700 hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none transition-colors shadow-xl"
             >
               Começar Agora
               <svg className="flex-shrink-0 w-4 h-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
