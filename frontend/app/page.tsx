@@ -1,15 +1,31 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '@/contexts/AuthContext';
 import Image from 'next/image';
 import Link from 'next/link';
+import api from '@/lib/api';
 
 export default function Home() {
   const router = useRouter();
   const { isAuthenticated, loading, user } = useAuth();
   const [showLanding, setShowLanding] = useState(false);
+  const [citySuggestions, setCitySuggestions] = useState<string[]>([]);
+  const [citySearchLoading, setCitySearchLoading] = useState(false);
+  const [estabelecimento, setEstabelecimento] = useState('');
+  const [cidadeEstado, setCidadeEstado] = useState('');
+  const [cityQuery, setCityQuery] = useState('');
+  const [showCityDropdown, setShowCityDropdown] = useState(false);
+  const [cityInputFocused, setCityInputFocused] = useState(false);
+  const [citySearchError, setCitySearchError] = useState(false);
+  const lastSearchRef = useRef<string | null>(null);
+
+  const t = cityQuery.trim();
+  const hasQuery = t.length >= 2;
+  const noResults = hasQuery && !citySearchLoading && citySuggestions.length === 0 && lastSearchRef.current === t;
+  const promptMinChars = cityInputFocused && !hasQuery;
+  const showDropdown = showCityDropdown && (citySearchLoading || citySuggestions.length > 0 || noResults || citySearchError || promptMinChars);
 
   useEffect(() => {
     if (!loading) {
@@ -28,6 +44,39 @@ export default function Home() {
       }
     }
   }, [isAuthenticated, loading, user, router]);
+
+  useEffect(() => {
+    if (!showLanding) return;
+    const t = cityQuery.trim();
+    if (t.length < 2) {
+      lastSearchRef.current = null;
+      setCitySuggestions([]);
+      setCitySearchLoading(false);
+      setCitySearchError(false);
+      return;
+    }
+    setCitySearchLoading(true);
+    setCitySearchError(false);
+    const id = setTimeout(() => {
+      lastSearchRef.current = t;
+      api
+        .get<string[]>('/cidades', { params: { q: t } })
+        .then((res) => {
+          if (lastSearchRef.current !== t) return;
+          setCitySuggestions(Array.isArray(res.data) ? res.data : []);
+          setCitySearchError(false);
+        })
+        .catch(() => {
+          if (lastSearchRef.current !== t) return;
+          setCitySuggestions([]);
+          setCitySearchError(true);
+        })
+        .finally(() => {
+          if (lastSearchRef.current === t) setCitySearchLoading(false);
+        });
+    }, 300);
+    return () => clearTimeout(id);
+  }, [showLanding, cityQuery]);
 
   if (loading || !showLanding) {
     return (
@@ -87,13 +136,119 @@ export default function Home() {
         </div>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="text-center max-w-4xl mx-auto">
-            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold mb-4 sm:mb-6 leading-tight">
-              Agende seu horário na{' '}
-              <span className="text-primary-500">barbearia</span> favorita
+            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold mb-6 sm:mb-8 leading-tight">
+              Agende seu horário na sua{' '}
+              <span className="text-primary-500">barbearia</span> favorita!
             </h1>
-            <p className="text-lg sm:text-xl md:text-2xl text-primary-100 mb-6 sm:mb-8 px-2">
-              Sistema completo de agendamento online. Rápido, fácil e sempre disponível.
-            </p>
+
+            {/* Barra de busca */}
+            <div className="max-w-3xl mx-auto mb-6 sm:mb-8 px-2">
+              <form
+                onSubmit={(e) => {
+                  e.preventDefault();
+                  const local = cidadeEstado || cityQuery;
+                  router.push(`/agendar?estabelecimento=${encodeURIComponent(estabelecimento)}&local=${encodeURIComponent(local)}`);
+                }}
+                className="flex flex-col sm:flex-row gap-0 bg-white rounded-tl-none rounded-tr-xl rounded-br-none rounded-bl-xl shadow-lg border border-white/20 overflow-visible"
+              >
+                <div className="flex-1 relative flex items-center sm:border-r border-gray-200">
+                  <span className="absolute left-4 text-gray-400 pointer-events-none">
+                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                    </svg>
+                  </span>
+                  <input
+                    type="text"
+                    value={estabelecimento}
+                    onChange={(e) => setEstabelecimento(e.target.value)}
+                    placeholder="Estabelecimento ou serviço"
+                    className="w-full pl-11 pr-4 py-3.5 text-gray-900 placeholder-gray-400 focus:ring-2 focus:ring-primary-500 focus:ring-inset rounded-tl-none rounded-tr-xl sm:rounded-t-none sm:rounded-tl-none sm:rounded-tr-none sm:rounded-br-none sm:rounded-bl-xl border-0 text-sm sm:text-base"
+                  />
+                </div>
+                <div className="flex-1 relative flex items-center sm:border-r border-gray-200">
+                  <span className="absolute left-4 text-gray-400 pointer-events-none">
+                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                    </svg>
+                  </span>
+                  <input
+                    type="text"
+                    value={cityQuery || cidadeEstado}
+                    onChange={(e) => {
+                      setCityQuery(e.target.value);
+                      setCidadeEstado('');
+                      setShowCityDropdown(true);
+                    }}
+                    onFocus={() => {
+                      setShowCityDropdown(true);
+                      setCityInputFocused(true);
+                    }}
+                    onBlur={() => {
+                      setTimeout(() => {
+                        setShowCityDropdown(false);
+                        setCityInputFocused(false);
+                      }, 180);
+                    }}
+                    placeholder="Cidade ou estado"
+                    className="w-full pl-11 pr-4 py-3.5 text-gray-900 placeholder-gray-400 focus:ring-2 focus:ring-primary-500 focus:ring-inset rounded-none border-0 text-sm sm:text-base"
+                  />
+                  {showDropdown && (
+                    <div className="absolute top-full left-0 right-0 mt-1 bg-white rounded-lg shadow-xl border border-gray-200 py-1 z-[100] max-h-48 overflow-auto">
+                      {citySearchLoading ? (
+                        <div className="flex items-center gap-2 px-4 py-3 text-gray-500 text-sm">
+                          <span className="animate-spin size-4 border-2 border-gray-300 border-t-primary-600 rounded-full" />
+                          Carregando…
+                        </div>
+                      ) : citySearchError ? (
+                        <div className="px-4 py-3 text-gray-500 text-sm">
+                          Erro ao buscar. Tente novamente.
+                        </div>
+                      ) : citySuggestions.length > 0 ? (
+                        <>
+                          {citySuggestions.map((c) => (
+                            <button
+                              key={c}
+                              type="button"
+                              onMouseDown={(e) => e.preventDefault()}
+                              onClick={() => {
+                                setCidadeEstado(c);
+                                setCityQuery(c);
+                                setShowCityDropdown(false);
+                              }}
+                              className="w-full flex items-center gap-2 px-4 py-2.5 text-left text-gray-700 hover:bg-gray-50 transition-colors text-sm"
+                            >
+                              <span className="text-gray-400 shrink-0">
+                                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                                </svg>
+                              </span>
+                              {c}
+                            </button>
+                          ))}
+                          <p className="px-4 py-2 text-right text-xs text-gray-400">Sugestões de cidades</p>
+                        </>
+                      ) : noResults ? (
+                        <div className="px-4 py-3 text-gray-500 text-sm">
+                          Nenhum resultado para &quot;{cityQuery.trim()}&quot;
+                        </div>
+                      ) : promptMinChars ? (
+                        <div className="px-4 py-3 text-gray-500 text-sm">
+                          Digite pelo menos 2 caracteres para buscar
+                        </div>
+                      ) : null}
+                    </div>
+                  )}
+                </div>
+                <button
+                  type="submit"
+                  className="px-6 sm:px-8 py-3.5 bg-primary-700 hover:bg-primary-800 text-white font-semibold uppercase text-sm tracking-wide transition-colors rounded-br-none rounded-bl-xl sm:rounded-b-none sm:rounded-tl-none sm:rounded-bl-none sm:rounded-tr-xl sm:rounded-br-none"
+                >
+                  Buscar
+                </button>
+              </form>
+            </div>
+
             <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center px-4">
               <a
                 href="https://wa.me/5583986854857?text=Olá!%20Gostaria%20de%20agendar%20um%20horário"
