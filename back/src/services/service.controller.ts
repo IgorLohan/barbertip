@@ -23,6 +23,7 @@ import { UserRole } from '../common/enums/user-role.enum';
 /**
  * Serviços internos que uma empresa oferece (ex.: Corte, Barba).
  * Path: /v1/service (singular).
+ * GET (listar/buscar) são públicos; POST, PATCH, DELETE exigem autenticação.
  */
 @ApiTags('Service')
 @Controller('service')

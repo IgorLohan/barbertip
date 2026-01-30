@@ -20,17 +20,18 @@ import { UserRole } from '../common/enums/user-role.enum';
 /**
  * Tipos de estabelecimento (Unhas, Cabelos, Barbearia, Depilação, Maquiagem, etc.).
  * Path: /v1/service-companies
+ * GET (listar/buscar) são públicos; POST, PATCH, DELETE exigem autenticação (ADMIN).
  */
 @ApiTags('ServiceCompanies')
 @Controller('service-companies')
-@UseGuards(JwtAuthGuard, RolesGuard)
-@ApiBearerAuth()
 export class ServiceCompaniesController {
   constructor(
     private readonly establishmentTypeService: EstablishmentTypeService,
   ) {}
 
   @Post()
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @ApiBearerAuth()
   @Roles(UserRole.ADMIN)
   @ApiOperation({ summary: 'Criar novo tipo de estabelecimento' })
   create(@Body() createDto: CreateEstablishmentTypeDto) {
@@ -40,13 +41,15 @@ export class ServiceCompaniesController {
   @Get()
   @ApiOperation({
     summary: 'Listar tipos de estabelecimento',
-    description: 'Retorna todos os tipos de estabelecimento ativos (Unhas, Cabelos, Barbearia, etc.).',
+    description: 'Retorna todos os tipos de estabelecimento ativos (Unhas, Cabelos, Barbearia, etc.). Público, sem autenticação.',
   })
   findAll() {
     return this.establishmentTypeService.findAll();
   }
 
   @Get('all')
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @ApiBearerAuth()
   @Roles(UserRole.ADMIN)
   @ApiOperation({
     summary: 'Listar todos os tipos (incl. inativos)',
@@ -63,6 +66,8 @@ export class ServiceCompaniesController {
   }
 
   @Patch(':id')
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @ApiBearerAuth()
   @Roles(UserRole.ADMIN)
   @ApiOperation({ summary: 'Atualizar tipo de estabelecimento' })
   update(
@@ -73,6 +78,8 @@ export class ServiceCompaniesController {
   }
 
   @Delete(':id')
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @ApiBearerAuth()
   @Roles(UserRole.ADMIN)
   @ApiOperation({ summary: 'Remover tipo de estabelecimento (soft delete)' })
   remove(@Param('id') id: string) {
