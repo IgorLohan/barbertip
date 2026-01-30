@@ -1,5 +1,5 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Document } from 'mongoose';
+import { Document, Schema as MongooseSchema } from 'mongoose';
 
 export type CompanyDocument = Company & Document;
 
@@ -10,6 +10,15 @@ export class Company {
 
   @Prop()
   address?: string;
+
+  @Prop()
+  endereco?: string;
+
+  @Prop()
+  linkendereco?: string;
+
+  @Prop({ type: MongooseSchema.Types.ObjectId, ref: 'EstablishmentType' })
+  serviceId?: string;
 
   @Prop()
   phone?: string;

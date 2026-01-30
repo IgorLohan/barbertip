@@ -42,7 +42,7 @@ export default function ServicosPage() {
 
   const loadServices = async () => {
     try {
-      const response = await api.get('/services');
+      const response = await api.get('/service');
       setServices(response.data);
     } catch (err) {
       console.error('Erro ao carregar serviços:', err);
@@ -56,9 +56,9 @@ export default function ServicosPage() {
 
     try {
       if (editingService) {
-        await api.patch(`/services/${editingService._id}`, formData);
+        await api.patch(`/service/${editingService._id}`, formData);
       } else {
-        await api.post('/services', formData);
+        await api.post('/service', formData);
       }
 
       setShowModal(false);
@@ -86,7 +86,7 @@ export default function ServicosPage() {
     }
 
     try {
-      await api.delete(`/services/${id}`);
+      await api.delete(`/service/${id}`);
       loadServices();
     } catch (err) {
       alert('Erro ao remover serviço');

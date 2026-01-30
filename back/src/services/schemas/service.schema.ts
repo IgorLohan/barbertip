@@ -3,6 +3,10 @@ import { Document, Schema as MongooseSchema } from 'mongoose';
 
 export type ServiceDocument = Service & Document;
 
+/**
+ * Serviço interno que uma empresa oferece ao cliente (ex.: Corte de cabelo, Barba).
+ * Usado em /v1/service (singular). Independe do tipo de estabelecimento (EstablishmentType).
+ */
 @Schema({ timestamps: true })
 export class Service {
   @Prop({ required: true })

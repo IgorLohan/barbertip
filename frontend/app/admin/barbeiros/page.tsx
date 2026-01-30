@@ -110,7 +110,7 @@ export default function BarbeirosPage() {
 
   const loadServices = async () => {
     try {
-      const response = await api.get('/services');
+      const response = await api.get('/service');
       setServices(response.data);
     } catch (err) {
       console.error('Erro ao carregar serviços:', err);

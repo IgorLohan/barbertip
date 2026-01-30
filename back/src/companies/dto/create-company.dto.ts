@@ -12,6 +12,21 @@ export class CreateCompanyDto {
   @IsOptional()
   address?: string;
 
+  @ApiProperty({ example: 'Rua das Flores, 123 - Centro', required: false })
+  @IsString()
+  @IsOptional()
+  endereco?: string;
+
+  @ApiProperty({ example: 'https://maps.google.com/...', required: false })
+  @IsString()
+  @IsOptional()
+  linkendereco?: string;
+
+  @ApiProperty({ example: '507f1f77bcf86cd799439011', required: false, description: 'ID do serviço' })
+  @IsString()
+  @IsOptional()
+  serviceId?: string;
+
   @ApiProperty({ example: '(11) 99999-9999', required: false })
   @IsString()
   @IsOptional()

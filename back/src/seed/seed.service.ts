@@ -4,7 +4,23 @@ import { Model } from 'mongoose';
 import * as bcrypt from 'bcrypt';
 import { User, UserDocument } from '../users/schemas/user.schema';
 import { Company, CompanyDocument } from '../companies/schemas/company.schema';
+import {
+  EstablishmentType,
+  EstablishmentTypeDocument,
+} from '../services/schemas/establishment-type.schema';
 import { UserRole } from '../common/enums/user-role.enum';
+
+const ESTABLISHMENT_TYPES = [
+  'Unhas',
+  'Cabelos',
+  'Barbearia',
+  'Depilação',
+  'Maquiagem',
+  'Sobrancelhas',
+  'Massagem e Estética',
+  'Podologia',
+  'Tatuagem',
+];
 
 @Injectable()
 export class SeedService implements OnModuleInit {
@@ -13,6 +29,8 @@ export class SeedService implements OnModuleInit {
   constructor(
     @InjectModel(User.name) private userModel: Model<UserDocument>,
     @InjectModel(Company.name) private companyModel: Model<CompanyDocument>,
+    @InjectModel(EstablishmentType.name)
+    private establishmentTypeModel: Model<EstablishmentTypeDocument>,
   ) {}
 
   async onModuleInit() {
@@ -22,6 +40,15 @@ export class SeedService implements OnModuleInit {
   async seed() {
     try {
       this.logger.log('Iniciando seed de dados de teste...');
+
+      // Tipos de estabelecimento (Services)
+      for (const name of ESTABLISHMENT_TYPES) {
+        const exists = await this.establishmentTypeModel.findOne({ name });
+        if (!exists) {
+          await this.establishmentTypeModel.create({ name, active: true });
+          this.logger.log(`✅ Tipo de estabelecimento criado: ${name}`);
+        }
+      }
 
       // Criar empresa de teste
       let company = await this.companyModel.findOne({ name: 'Barbearia Teste' });

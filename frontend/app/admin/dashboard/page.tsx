@@ -188,7 +188,7 @@ export default function DashboardPage() {
         });
       } else if (user?.role === 'GERENTE') {
         const [servicesRes, barbersRes, schedulesRes] = await Promise.all([
-          api.get('/services'),
+          api.get('/service'),
           api.get('/barbers'),
           api.get('/schedules'),
         ]);
