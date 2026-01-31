@@ -26,7 +26,15 @@ export class CompaniesService {
 
   async create(createCompanyDto: CreateCompanyDto): Promise<Company> {
     try {
-      const createdCompany = new this.companyModel(createCompanyDto);
+      const doc: Record<string, unknown> = { ...createCompanyDto };
+      if (createCompanyDto.serviceIds?.length) {
+        doc.serviceIds = createCompanyDto.serviceIds;
+        doc.serviceId = createCompanyDto.serviceIds[0];
+      } else if (createCompanyDto.serviceId) {
+        doc.serviceId = createCompanyDto.serviceId;
+        doc.serviceIds = [createCompanyDto.serviceId];
+      }
+      const createdCompany = new this.companyModel(doc);
       return await createdCompany.save();
     } catch (err) {
       if (this.isDuplicateKeyError(err)) {
@@ -39,7 +47,12 @@ export class CompaniesService {
   }
 
   async findAll(): Promise<Company[]> {
-    return this.companyModel.find({}).sort({ name: 1 }).exec();
+    return this.companyModel
+      .find({})
+      .sort({ name: 1 })
+      .populate('serviceId', 'name')
+      .populate('serviceIds', 'name')
+      .exec();
   }
 
   private normalize(s: string): string {
@@ -65,7 +78,11 @@ export class CompaniesService {
     if (!q && !hasFilters) return [];
     const baseQuery: Record<string, unknown> = { active: true };
     if (filters?.categoryId?.trim()) {
-      baseQuery.serviceId = filters.categoryId.trim();
+      const categoryId = filters.categoryId.trim();
+      baseQuery.$or = [
+        { serviceId: categoryId },
+        { serviceIds: categoryId },
+      ];
     }
     let companyIdsByService: string[] | null = null;
     if (filters?.serviceName?.trim()) {
@@ -106,13 +123,25 @@ export class CompaniesService {
   }
 
   async findOne(id: string): Promise<Company> {
-    return this.companyModel.findById(id).exec();
+    return this.companyModel
+      .findById(id)
+      .populate('serviceId', 'name')
+      .populate('serviceIds', 'name')
+      .exec();
   }
 
   async update(id: string, updateCompanyDto: UpdateCompanyDto): Promise<Company> {
     try {
+      const doc: Record<string, unknown> = { ...updateCompanyDto };
+      if (updateCompanyDto.serviceIds !== undefined) {
+        doc.serviceIds = updateCompanyDto.serviceIds.length ? updateCompanyDto.serviceIds : undefined;
+        doc.serviceId = updateCompanyDto.serviceIds.length ? updateCompanyDto.serviceIds[0] : undefined;
+      } else if (updateCompanyDto.serviceId !== undefined) {
+        doc.serviceId = updateCompanyDto.serviceId;
+        doc.serviceIds = updateCompanyDto.serviceId ? [updateCompanyDto.serviceId] : undefined;
+      }
       const updated = await this.companyModel
-        .findByIdAndUpdate(id, updateCompanyDto, { new: true })
+        .findByIdAndUpdate(id, doc, { new: true })
         .exec();
       return updated!;
     } catch (err) {

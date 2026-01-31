@@ -8,28 +8,41 @@ import api from '@/lib/api';
 import { useAuth } from '@/contexts/AuthContext';
 import { useRouter } from 'next/navigation';
 
+interface Category {
+  _id: string;
+  name: string;
+}
+
 interface Company {
   _id: string;
   name: string;
   address?: string;
+  endereco?: string;
+  linkendereco?: string;
   phone?: string;
   active: boolean;
   monthlyFee?: number;
+  serviceId?: string | { _id: string; name: string };
+  serviceIds?: string[] | { _id: string; name: string }[];
 }
 
 export default function EmpresasPage() {
   const { user, loading: authLoading } = useAuth();
   const router = useRouter();
   const [companies, setCompanies] = useState<Company[]>([]);
+  const [categories, setCategories] = useState<Category[]>([]);
   const [loading, setLoading] = useState(true);
   const [showModal, setShowModal] = useState(false);
   const [editingCompany, setEditingCompany] = useState<Company | null>(null);
   const [formData, setFormData] = useState({
     name: '',
     address: '',
+    endereco: '',
+    linkendereco: '',
     phone: '',
     active: true,
     monthlyFee: '',
+    serviceIds: [] as string[],
   });
   const [submitError, setSubmitError] = useState('');
   const [saving, setSaving] = useState(false);
@@ -43,8 +56,18 @@ export default function EmpresasPage() {
   useEffect(() => {
     if (user?.role === 'ADMIN') {
       loadCompanies();
+      loadCategories();
     }
   }, [user]);
+
+  const loadCategories = async () => {
+    try {
+      const response = await api.get<Category[]>('/service-companies');
+      setCategories(Array.isArray(response.data) ? response.data : []);
+    } catch (err) {
+      console.error('Erro ao carregar categorias:', err);
+    }
+  };
 
   const loadCompanies = async () => {
     try {
@@ -66,9 +89,12 @@ export default function EmpresasPage() {
       const payload: any = {
         name: formData.name,
         address: formData.address || undefined,
+        endereco: formData.endereco || undefined,
+        linkendereco: formData.linkendereco || undefined,
         phone: formData.phone || undefined,
         active: formData.active,
         monthlyFee: formData.monthlyFee ? parseFloat(formData.monthlyFee) : 0,
+        serviceIds: formData.serviceIds?.length ? formData.serviceIds : undefined,
       };
 
       if (editingCompany) {
@@ -79,7 +105,7 @@ export default function EmpresasPage() {
 
       setShowModal(false);
       setEditingCompany(null);
-      setFormData({ name: '', address: '', phone: '', active: true, monthlyFee: '' });
+      setFormData({ name: '', address: '', endereco: '', linkendereco: '', phone: '', active: true, monthlyFee: '', serviceIds: [] });
       setSubmitError('');
       loadCompanies();
     } catch (err: any) {
@@ -90,14 +116,32 @@ export default function EmpresasPage() {
     }
   };
 
+  const getCompanyServiceIds = (company: Company): string[] => {
+    if (company.serviceIds?.length) {
+      return company.serviceIds.map((s) =>
+        typeof s === 'object' && s !== null && '_id' in s ? (s as { _id: string })._id : String(s)
+      );
+    }
+    if (company.serviceId) {
+      const id = typeof company.serviceId === 'object' && company.serviceId !== null && '_id' in company.serviceId
+        ? (company.serviceId as { _id: string })._id
+        : String(company.serviceId);
+      return id ? [id] : [];
+    }
+    return [];
+  };
+
   const handleEdit = (company: Company) => {
     setEditingCompany(company);
     setFormData({
       name: company.name,
       address: company.address || '',
+      endereco: company.endereco || '',
+      linkendereco: company.linkendereco || '',
       phone: company.phone || '',
       active: company.active,
       monthlyFee: company.monthlyFee?.toString() || '',
+      serviceIds: getCompanyServiceIds(company),
     });
     setShowModal(true);
   };
@@ -117,7 +161,7 @@ export default function EmpresasPage() {
 
   const openNewModal = () => {
     setEditingCompany(null);
-    setFormData({ name: '', address: '', phone: '', active: true, monthlyFee: '' });
+    setFormData({ name: '', address: '', endereco: '', linkendereco: '', phone: '', active: true, monthlyFee: '', serviceIds: [] });
     setSubmitError('');
     setShowModal(true);
   };
@@ -125,8 +169,28 @@ export default function EmpresasPage() {
   const closeModal = () => {
     setShowModal(false);
     setEditingCompany(null);
-    setFormData({ name: '', address: '', phone: '', active: true, monthlyFee: '' });
+    setFormData({ name: '', address: '', endereco: '', linkendereco: '', phone: '', active: true, monthlyFee: '', serviceIds: [] });
     setSubmitError('');
+  };
+
+  const getCategoryNames = (company: Company): string => {
+    const ids = getCompanyServiceIds(company);
+    if (!ids.length) return '-';
+    const names = ids.map((id) => {
+      const ref = company.serviceIds?.find((s) => (typeof s === 'object' ? (s as { _id: string })._id : s) === id);
+      if (ref && typeof ref === 'object' && 'name' in ref) return (ref as { name: string }).name;
+      return categories.find((c) => c._id === id)?.name ?? id;
+    });
+    return names.join(', ');
+  };
+
+  const toggleCategory = (categoryId: string) => {
+    setFormData((prev) => ({
+      ...prev,
+      serviceIds: prev.serviceIds.includes(categoryId)
+        ? prev.serviceIds.filter((id) => id !== categoryId)
+        : [...prev.serviceIds, categoryId],
+    }));
   };
 
   if (user?.role !== 'ADMIN') {
@@ -149,34 +213,23 @@ export default function EmpresasPage() {
 
         {/* Tabela */}
         <div className="overflow-x-auto rounded-xl border border-gray-100">
-          <div className="min-w-[640px] bg-gray-50/50">
+          <div className="min-w-[800px] bg-gray-50/50">
           <table className="min-w-full divide-y divide-gray-200">
             <thead className="bg-gray-50">
               <tr>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Nome
-                </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Endereço
-                </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Telefone
-                </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Mensalidade
-                </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Status
-                </th>
-                <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Ações
-                </th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Nome</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Categoria</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Endereço</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Telefone</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Mensalidade</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+                <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">Ações</th>
               </tr>
             </thead>
             <tbody className="bg-white divide-y divide-gray-200">
               {companies.length === 0 ? (
                 <tr>
-                  <td colSpan={6} className="px-6 py-4 text-center text-gray-500">
+                  <td colSpan={7} className="px-6 py-4 text-center text-gray-500">
                     Nenhuma empresa cadastrada
                   </td>
                 </tr>
@@ -187,7 +240,10 @@ export default function EmpresasPage() {
                       <div className="text-sm font-medium text-gray-900">{company.name}</div>
                     </td>
                     <td className="px-6 py-4">
-                      <div className="text-sm text-gray-500">{company.address || '-'}</div>
+                      <div className="text-sm text-gray-500">{getCategoryNames(company)}</div>
+                    </td>
+                    <td className="px-6 py-4">
+                      <div className="text-sm text-gray-500">{company.address || company.endereco || '-'}</div>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
                       <div className="text-sm text-gray-500">{company.phone || '-'}</div>
@@ -266,6 +322,29 @@ export default function EmpresasPage() {
 
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">
+                Categoria (tipo de estabelecimento)
+              </label>
+              <div className="border border-gray-300 rounded-md p-3 bg-gray-50/50 max-h-40 overflow-y-auto space-y-2">
+                {categories.length === 0 ? (
+                  <p className="text-sm text-gray-500">Nenhuma categoria cadastrada</p>
+                ) : (
+                  categories.map((cat) => (
+                    <label key={cat._id} className="flex items-center gap-2 cursor-pointer hover:bg-gray-100 rounded px-2 py-1 -mx-2">
+                      <input
+                        type="checkbox"
+                        checked={formData.serviceIds.includes(cat._id)}
+                        onChange={() => toggleCategory(cat._id)}
+                        className="rounded border-gray-300 text-primary-600 focus:ring-primary-600"
+                      />
+                      <span className="text-sm text-gray-900">{cat.name}</span>
+                    </label>
+                  ))
+                )}
+              </div>
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">
                 Endereço
               </label>
               <input
@@ -273,7 +352,33 @@ export default function EmpresasPage() {
                 value={formData.address}
                 onChange={(e) => setFormData({ ...formData, address: e.target.value })}
                 className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm text-gray-900 bg-white focus:outline-none focus:ring-primary-600 focus:border-primary-700"
-                placeholder="Endereço completo"
+                placeholder="Rua, número, bairro, cidade, estado"
+              />
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">
+                Endereço complementar
+              </label>
+              <input
+                type="text"
+                value={formData.endereco}
+                onChange={(e) => setFormData({ ...formData, endereco: e.target.value })}
+                className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm text-gray-900 bg-white focus:outline-none focus:ring-primary-600 focus:border-primary-700"
+                placeholder="Complemento ou referência"
+              />
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">
+                Link do endereço (Google Maps, etc.)
+              </label>
+              <input
+                type="url"
+                value={formData.linkendereco}
+                onChange={(e) => setFormData({ ...formData, linkendereco: e.target.value })}
+                className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm text-gray-900 bg-white focus:outline-none focus:ring-primary-600 focus:border-primary-700"
+                placeholder="https://maps.google.com/..."
               />
             </div>
 
@@ -305,16 +410,23 @@ export default function EmpresasPage() {
               />
             </div>
 
-            <div>
-              <label className="flex items-center">
-                <input
-                  type="checkbox"
-                  checked={formData.active}
-                  onChange={(e) => setFormData({ ...formData, active: e.target.checked })}
-                  className="rounded border-gray-300 text-primary-700 focus:ring-primary-600"
+            <div className="flex items-center justify-between">
+              <span className="text-sm font-medium text-gray-700">Empresa ativa</span>
+              <button
+                type="button"
+                role="switch"
+                aria-checked={formData.active}
+                onClick={() => setFormData({ ...formData, active: !formData.active })}
+                className={`relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 ${
+                  formData.active ? 'bg-primary-600' : 'bg-gray-200'
+                }`}
+              >
+                <span
+                  className={`pointer-events-none absolute top-0.5 left-0.5 h-5 w-5 rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out ${
+                    formData.active ? 'translate-x-5' : 'translate-x-0'
+                  }`}
                 />
-                <span className="ml-2 text-sm text-gray-700">Empresa ativa</span>
-              </label>
+              </button>
             </div>
 
             <div className="flex justify-end gap-3 pt-4">

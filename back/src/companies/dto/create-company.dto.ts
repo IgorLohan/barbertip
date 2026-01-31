@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsString, IsOptional, IsBoolean, IsNumber, Min } from 'class-validator';
+import { IsString, IsOptional, IsBoolean, IsNumber, Min, IsArray } from 'class-validator';
 import { Type } from 'class-transformer';
 
 export class CreateCompanyDto {
@@ -22,10 +22,16 @@ export class CreateCompanyDto {
   @IsOptional()
   linkendereco?: string;
 
-  @ApiProperty({ example: '507f1f77bcf86cd799439011', required: false, description: 'ID do serviço' })
+  @ApiProperty({ example: '507f1f77bcf86cd799439011', required: false, description: 'ID do tipo de estabelecimento (legado)' })
   @IsString()
   @IsOptional()
   serviceId?: string;
+
+  @ApiProperty({ type: [String], example: ['507f1f77bcf86cd799439011'], required: false, description: 'IDs dos tipos de estabelecimento (categorias)' })
+  @IsOptional()
+  @IsArray()
+  @IsString({ each: true })
+  serviceIds?: string[];
 
   @ApiProperty({ example: '(11) 99999-9999', required: false })
   @IsString()

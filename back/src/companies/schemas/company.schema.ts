@@ -20,6 +20,9 @@ export class Company {
   @Prop({ type: MongooseSchema.Types.ObjectId, ref: 'EstablishmentType' })
   serviceId?: string;
 
+  @Prop({ type: [{ type: MongooseSchema.Types.ObjectId, ref: 'EstablishmentType' }], default: undefined })
+  serviceIds?: string[];
+
   @Prop()
   phone?: string;
 
