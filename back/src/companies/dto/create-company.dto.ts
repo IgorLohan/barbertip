@@ -7,6 +7,11 @@ export class CreateCompanyDto {
   @IsString()
   name: string;
 
+  @ApiProperty({ example: 'https://exemplo.com/logo.png', required: false })
+  @IsString()
+  @IsOptional()
+  logourl?: string;
+
   @ApiProperty({ example: 'Rua das Flores, 123', required: false })
   @IsString()
   @IsOptional()

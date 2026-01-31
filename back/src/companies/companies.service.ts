@@ -75,7 +75,6 @@ export class CompaniesService {
       filters?.categoryId?.trim() ||
       filters?.serviceName?.trim() ||
       filters?.city?.trim();
-    if (!q && !hasFilters) return [];
     const baseQuery: Record<string, unknown> = { active: true };
     if (filters?.categoryId?.trim()) {
       const categoryId = filters.categoryId.trim();
@@ -115,7 +114,27 @@ export class CompaniesService {
           (c.endereco && this.normalize(c.endereco).includes(ncity)),
       );
     }
-    return list.slice(0, 15);
+    const limit = q || hasFilters ? 15 : 100;
+    const slice = list.slice(0, limit);
+    type WithId = Company & { _id: { toString(): string } };
+    const ids = (slice as WithId[]).map((c) => c._id.toString());
+    const servicesByCompany = await this.serviceModel
+      .find({ companyId: { $in: ids }, active: true })
+      .select('companyId name')
+      .lean()
+      .exec();
+    const map = (servicesByCompany as { companyId: unknown; name: string }[]).reduce<Record<string, string[]>>((acc, s) => {
+      const cid = typeof s.companyId === 'object' && s.companyId && '_id' in s.companyId
+        ? String((s.companyId as { _id: unknown })._id)
+        : String(s.companyId);
+      if (!acc[cid]) acc[cid] = [];
+      acc[cid].push(s.name);
+      return acc;
+    }, {});
+    return (slice as WithId[]).map((c) => ({
+      ...c,
+      serviceNames: map[c._id.toString()] || [],
+    }));
   }
 
   private escapeRegex(s: string): string {

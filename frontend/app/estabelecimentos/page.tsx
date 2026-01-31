@@ -8,8 +8,12 @@ import api from '@/lib/api';
 interface Estabelecimento {
   _id: string;
   name: string;
+  logourl?: string;
   address?: string;
+  endereco?: string;
+  linkendereco?: string;
   phone?: string;
+  serviceNames?: string[];
 }
 
 interface Category {
@@ -48,7 +52,7 @@ export default function EstabelecimentosPage() {
   useEffect(() => {
     api.get<ServiceItem[]>('/service').then((res) => {
       const list = Array.isArray(res.data) ? res.data : [];
-      const names = [...new Set(list.map((s) => s.name))].sort();
+      const names = Array.from(new Set(list.map((s) => s.name))).sort();
       setServiceNames(names);
     }).catch(() => setServiceNames([]));
   }, []);
@@ -90,17 +94,11 @@ export default function EstabelecimentosPage() {
   }, [cityQuery]);
 
   const hasFilters = selectedCategoryId || selectedServiceName || cityQuery.trim();
-  const canSearch = estabQuery.trim().length >= 2 || hasFilters;
+  const canSearch = estabQuery.trim().length >= 2 || hasFilters || true;
 
-  const handleSearch = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!canSearch) return;
+  const runSearch = (params: Record<string, string>) => {
     setLoading(true);
     setSearched(true);
-    const params: Record<string, string> = { q: estabQuery.trim() };
-    if (selectedCategoryId) params.categoryId = selectedCategoryId;
-    if (selectedServiceName) params.serviceName = selectedServiceName;
-    if (cityQuery.trim()) params.city = cityQuery.trim();
     api
       .get<Estabelecimento[]>('/company-search', { params })
       .then((res) => setResults(Array.isArray(res.data) ? res.data : []))
@@ -108,10 +106,25 @@ export default function EstabelecimentosPage() {
       .finally(() => setLoading(false));
   };
 
+  useEffect(() => {
+    runSearch({});
+  }, []);
+
+  const handleSearch = (e: React.FormEvent) => {
+    e.preventDefault();
+    const params: Record<string, string> = {};
+    if (estabQuery.trim()) params.q = estabQuery.trim();
+    if (selectedCategoryId) params.categoryId = selectedCategoryId;
+    if (selectedServiceName) params.serviceName = selectedServiceName;
+    if (cityQuery.trim()) params.city = cityQuery.trim();
+    runSearch(params);
+  };
+
   const clearFilters = () => {
     setSelectedCategoryId('');
     setSelectedServiceName('');
     setCityQuery('');
+    runSearch({});
   };
 
   return (
@@ -335,19 +348,65 @@ export default function EstabelecimentosPage() {
                         key={c._id}
                         className="bg-white border border-gray-200 rounded-xl p-4 sm:p-5 shadow-sm hover:shadow-md transition-shadow"
                       >
-                        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
-                          <div>
-                            <h2 className="font-semibold text-gray-900 text-lg">{c.name}</h2>
-                            {c.address && (
-                              <p className="text-sm text-gray-600 mt-1">{c.address}</p>
+                        <div className="flex flex-col sm:flex-row gap-4 sm:items-start">
+                          {/* Logo / nome (área vermelha) */}
+                          <div className="flex flex-col items-center sm:items-start shrink-0">
+                            {c.logourl ? (
+                              <img
+                                src={c.logourl}
+                                alt={`Logo ${c.name}`}
+                                className="w-20 h-20 sm:w-24 sm:h-24 rounded-xl object-cover border border-gray-200"
+                              />
+                            ) : (
+                              <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-xl bg-gray-100 border border-gray-200 flex items-center justify-center">
+                                <span className="text-2xl sm:text-3xl text-gray-400 font-bold" aria-hidden>
+                                  {c.name.charAt(0)}
+                                </span>
+                              </div>
+                            )}
+                            <h2 className="font-semibold text-gray-900 text-lg mt-2 text-center sm:text-left">{c.name}</h2>
+                          </div>
+                          {/* Serviços, endereço, link, telefone (área azul) */}
+                          <div className="flex-1 min-w-0 space-y-2">
+                            {c.serviceNames && c.serviceNames.length > 0 && (
+                              <div>
+                                <span className="text-xs font-medium text-gray-500 uppercase tracking-wide">Serviços</span>
+                                <p className="text-sm text-gray-700 mt-0.5 flex flex-wrap gap-1">
+                                  {c.serviceNames.map((s) => (
+                                    <span key={s} className="inline-flex items-center px-2 py-0.5 rounded-md bg-primary-50 text-primary-800 text-xs font-medium">
+                                      {s}
+                                    </span>
+                                  ))}
+                                </p>
+                              </div>
+                            )}
+                            {(c.address || c.endereco) && (
+                              <p className="text-sm text-gray-600">
+                                {c.address || c.endereco}
+                              </p>
+                            )}
+                            {c.linkendereco && (
+                              <a
+                                href={c.linkendereco}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="text-sm text-primary-600 hover:text-primary-800 font-medium inline-flex items-center gap-1"
+                              >
+                                Ver no mapa
+                                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                                </svg>
+                              </a>
                             )}
                             {c.phone && (
-                              <p className="text-sm text-gray-600 mt-0.5">{c.phone}</p>
+                              <p className="text-sm text-gray-600">
+                                <a href={`tel:${c.phone.replace(/\D/g, '')}`} className="hover:text-primary-600">{c.phone}</a>
+                              </p>
                             )}
                           </div>
                           <Link
                             href={`/cliente/agendar?estabelecimento=${encodeURIComponent(c.name)}`}
-                            className="inline-flex items-center justify-center px-4 py-2 bg-primary-700 hover:bg-primary-800 text-white font-medium rounded-lg text-sm transition-colors shrink-0"
+                            className="inline-flex items-center justify-center px-4 py-2 bg-primary-700 hover:bg-primary-800 text-white font-medium rounded-lg text-sm transition-colors shrink-0 self-center sm:self-auto"
                           >
                             Agendar
                           </Link>

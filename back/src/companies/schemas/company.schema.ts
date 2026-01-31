@@ -9,6 +9,9 @@ export class Company {
   name: string;
 
   @Prop()
+  logourl?: string;
+
+  @Prop()
   address?: string;
 
   @Prop()

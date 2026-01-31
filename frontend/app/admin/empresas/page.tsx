@@ -16,6 +16,7 @@ interface Category {
 interface Company {
   _id: string;
   name: string;
+  logourl?: string;
   address?: string;
   endereco?: string;
   linkendereco?: string;
@@ -36,6 +37,7 @@ export default function EmpresasPage() {
   const [editingCompany, setEditingCompany] = useState<Company | null>(null);
   const [formData, setFormData] = useState({
     name: '',
+    logourl: '',
     address: '',
     endereco: '',
     linkendereco: '',
@@ -88,6 +90,7 @@ export default function EmpresasPage() {
     try {
       const payload: any = {
         name: formData.name,
+        logourl: formData.logourl || undefined,
         address: formData.address || undefined,
         endereco: formData.endereco || undefined,
         linkendereco: formData.linkendereco || undefined,
@@ -105,7 +108,7 @@ export default function EmpresasPage() {
 
       setShowModal(false);
       setEditingCompany(null);
-      setFormData({ name: '', address: '', endereco: '', linkendereco: '', phone: '', active: true, monthlyFee: '', serviceIds: [] });
+      setFormData({ name: '', logourl: '', address: '', endereco: '', linkendereco: '', phone: '', active: true, monthlyFee: '', serviceIds: [] });
       setSubmitError('');
       loadCompanies();
     } catch (err: any) {
@@ -135,6 +138,7 @@ export default function EmpresasPage() {
     setEditingCompany(company);
     setFormData({
       name: company.name,
+      logourl: company.logourl || '',
       address: company.address || '',
       endereco: company.endereco || '',
       linkendereco: company.linkendereco || '',
@@ -161,7 +165,7 @@ export default function EmpresasPage() {
 
   const openNewModal = () => {
     setEditingCompany(null);
-    setFormData({ name: '', address: '', endereco: '', linkendereco: '', phone: '', active: true, monthlyFee: '', serviceIds: [] });
+    setFormData({ name: '', logourl: '', address: '', endereco: '', linkendereco: '', phone: '', active: true, monthlyFee: '', serviceIds: [] });
     setSubmitError('');
     setShowModal(true);
   };
@@ -169,7 +173,7 @@ export default function EmpresasPage() {
   const closeModal = () => {
     setShowModal(false);
     setEditingCompany(null);
-    setFormData({ name: '', address: '', endereco: '', linkendereco: '', phone: '', active: true, monthlyFee: '', serviceIds: [] });
+    setFormData({ name: '', logourl: '', address: '', endereco: '', linkendereco: '', phone: '', active: true, monthlyFee: '', serviceIds: [] });
     setSubmitError('');
   };
 
@@ -317,6 +321,19 @@ export default function EmpresasPage() {
                 className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm text-gray-900 bg-white focus:outline-none focus:ring-primary-600 focus:border-primary-700"
                 required
                 placeholder="Nome da empresa"
+              />
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">
+                URL da logo
+              </label>
+              <input
+                type="url"
+                value={formData.logourl}
+                onChange={(e) => setFormData({ ...formData, logourl: e.target.value })}
+                className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm text-gray-900 bg-white focus:outline-none focus:ring-primary-600 focus:border-primary-700"
+                placeholder="https://exemplo.com/logo.png"
               />
             </div>
 
