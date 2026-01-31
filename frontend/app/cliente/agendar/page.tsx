@@ -53,7 +53,7 @@ export default function AgendarPage() {
 
   useEffect(() => {
     if (selectedService && selectedBarber && selectedDate) {
-      setSelectedSlot(''); // Limpar slot selecionado ao mudar data/serviço/barbeiro
+      setSelectedSlot('');
       loadAvailableSlots();
     } else {
       setAvailableSlots([]);
@@ -118,7 +118,6 @@ export default function AgendarPage() {
     }
 
     try {
-      // Garantir que o formato da data está correto (ISO string)
       const startAtDate = new Date(selectedSlot);
       if (isNaN(startAtDate.getTime())) {
         setError('Data/hora inválida. Por favor, selecione novamente.');
@@ -134,13 +133,11 @@ export default function AgendarPage() {
 
       setSuccess('Agendamento criado com sucesso!');
       setSelectedSlot('');
-      
-      // Recarregar horários disponíveis para atualizar a lista
+
       if (selectedService && selectedBarber && selectedDate) {
         await loadAvailableSlots();
       }
-      
-      // Limpar mensagem de sucesso após 5 segundos
+
       setTimeout(() => setSuccess(''), 5000);
     } catch (err: any) {
       const errorMessage = err.response?.data?.message || err.message || 'Erro ao criar agendamento';
@@ -159,26 +156,24 @@ export default function AgendarPage() {
     <Layout>
       {authLoading && <Loading text="Carregando..." />}
       {!authLoading && (
-      <div className="bg-white rounded-xl sm:rounded-2xl shadow-xl sm:shadow-2xl p-4 sm:p-6 md:p-8 overflow-hidden max-w-2xl mx-auto space-y-4 sm:space-y-6">
-        <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-4 sm:mb-6">Novo Agendamento</h1>
+        <div className="bg-white rounded-xl sm:rounded-2xl shadow-xl sm:shadow-2xl p-4 sm:p-6 md:p-8 overflow-hidden max-w-2xl mx-auto space-y-4 sm:space-y-6">
+          <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-4 sm:mb-6">Novo Agendamento</h1>
 
-        {error && (
-          <div className="bg-red-50 border border-red-400 text-red-700 px-3 sm:px-4 py-2 sm:py-3 rounded mb-4 text-sm sm:text-base">
-            {error}
-          </div>
-        )}
+          {error && (
+            <div className="bg-red-50 border border-red-400 text-red-700 px-3 sm:px-4 py-2 sm:py-3 rounded mb-4 text-sm sm:text-base">
+              {error}
+            </div>
+          )}
 
-        {success && (
-          <div className="bg-green-50 border border-green-400 text-green-700 px-3 sm:px-4 py-2 sm:py-3 rounded mb-4 text-sm sm:text-base">
-            {success}
-          </div>
-        )}
+          {success && (
+            <div className="bg-green-50 border border-green-400 text-green-700 px-3 sm:px-4 py-2 sm:py-3 rounded mb-4 text-sm sm:text-base">
+              {success}
+            </div>
+          )}
 
-        <form onSubmit={handleSubmit} className="border border-gray-100 rounded-xl bg-gray-50/50 px-4 sm:px-6 md:px-8 pt-4 sm:pt-6 pb-6 sm:pb-8">
+          <form onSubmit={handleSubmit} className="border border-gray-100 rounded-xl bg-gray-50/50 px-4 sm:px-6 md:px-8 pt-4 sm:pt-6 pb-6 sm:pb-8">
             <div className="mb-4">
-              <label className="block text-gray-700 text-sm font-bold mb-2">
-                Serviço *
-              </label>
+              <label className="block text-gray-700 text-sm font-bold mb-2">Serviço *</label>
               <select
                 value={selectedService}
                 onChange={(e) => setSelectedService(e.target.value)}
@@ -195,9 +190,7 @@ export default function AgendarPage() {
             </div>
 
             <div className="mb-4">
-              <label className="block text-gray-700 text-sm font-bold mb-2">
-                Barbeiro *
-              </label>
+              <label className="block text-gray-700 text-sm font-bold mb-2">Barbeiro *</label>
               <select
                 value={selectedBarber}
                 onChange={(e) => setSelectedBarber(e.target.value)}
@@ -214,9 +207,7 @@ export default function AgendarPage() {
             </div>
 
             <div className="mb-4">
-              <label className="block text-gray-700 text-sm font-bold mb-2">
-                Data *
-              </label>
+              <label className="block text-gray-700 text-sm font-bold mb-2">Data *</label>
               <input
                 type="date"
                 value={selectedDate}
@@ -229,9 +220,7 @@ export default function AgendarPage() {
 
             {selectedService && selectedBarber && selectedDate && (
               <div className="mb-4">
-                <label className="block text-gray-700 text-sm font-bold mb-2">
-                  Horário Disponível *
-                </label>
+                <label className="block text-gray-700 text-sm font-bold mb-2">Horário Disponível *</label>
                 {loadingSlots ? (
                   <div className="py-4">
                     <Loading size="sm" text="Carregando horários disponíveis..." fullScreen={false} />
@@ -242,7 +231,6 @@ export default function AgendarPage() {
                       const slotDate = new Date(slot);
                       const isPast = slotDate < new Date();
                       const isDisabled = isPast;
-                      
                       return (
                         <button
                           key={slot}
@@ -251,7 +239,7 @@ export default function AgendarPage() {
                           onClick={() => {
                             if (!isDisabled) {
                               setSelectedSlot(slot);
-                              setError(''); // Limpar erro ao selecionar horário
+                              setError('');
                             }
                           }}
                           className={`py-2 px-3 sm:px-4 rounded border transition-colors text-sm sm:text-base ${
@@ -269,9 +257,7 @@ export default function AgendarPage() {
                     })}
                   </div>
                 ) : (
-                  <div className="text-sm text-gray-500 py-2">
-                    Nenhum horário disponível para esta data.
-                  </div>
+                  <div className="text-sm text-gray-500 py-2">Nenhum horário disponível para esta data.</div>
                 )}
               </div>
             )}
@@ -283,8 +269,7 @@ export default function AgendarPage() {
                 <p className="text-gray-900">Duração: {selectedServiceData.duration} minutos</p>
                 <p className="text-gray-900">Preço: R$ {selectedServiceData.price.toFixed(2)}</p>
                 <p className="text-gray-900">
-                  Data/Hora:{' '}
-                  {format(new Date(selectedSlot), "dd/MM/yyyy 'às' HH:mm")}
+                  Data/Hora: {format(new Date(selectedSlot), "dd/MM/yyyy 'às' HH:mm")}
                 </p>
               </div>
             )}
@@ -299,7 +284,7 @@ export default function AgendarPage() {
               </button>
             </div>
           </form>
-      </div>
+        </div>
       )}
     </Layout>
   );

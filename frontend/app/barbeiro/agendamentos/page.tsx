@@ -68,7 +68,7 @@ export default function BarbeiroAgendamentosPage() {
 
   useEffect(() => {
     if (!authLoading && user && user.role !== 'BARBEIRO') {
-      router.push('/agendar');
+      router.push('/cliente/agendar');
     }
   }, [user, authLoading, router]);
 

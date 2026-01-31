@@ -346,7 +346,7 @@ export default function EstabelecimentosPage() {
                             )}
                           </div>
                           <Link
-                            href={`/agendar?estabelecimento=${encodeURIComponent(c.name)}`}
+                            href={`/cliente/agendar?estabelecimento=${encodeURIComponent(c.name)}`}
                             className="inline-flex items-center justify-center px-4 py-2 bg-primary-700 hover:bg-primary-800 text-white font-medium rounded-lg text-sm transition-colors shrink-0"
                           >
                             Agendar

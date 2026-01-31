@@ -12,12 +12,13 @@ export default function AdminPage() {
   const router = useRouter();
 
   useEffect(() => {
-    if (!loading && user && user.role !== 'ADMIN' && user.role !== 'GERENTE' && user.role !== 'BARBEIRO') {
-      router.push('/agendar');
+    if (!loading && user) {
+      if (user.role === 'GERENTE') router.push('/gerente/dashboard');
+      else if (user.role !== 'ADMIN' && user.role !== 'BARBEIRO') router.push('/cliente/agendar');
     }
   }, [user, loading, router]);
 
-  if (user && user.role !== 'ADMIN' && user.role !== 'GERENTE' && user.role !== 'BARBEIRO') {
+  if (user && user.role !== 'ADMIN' && user.role !== 'BARBEIRO') {
     return null;
   }
 
@@ -28,7 +29,7 @@ export default function AdminPage() {
         <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">Painel Administrativo</h1>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
-          {(user?.role === 'ADMIN' || user?.role === 'GERENTE') && (
+          {user?.role === 'ADMIN' && (
             <>
               <Link
                 href="/admin/servicos"

@@ -29,13 +29,14 @@ export default function ServicosPage() {
   });
 
   useEffect(() => {
-    if (!authLoading && user && user.role !== 'ADMIN' && user.role !== 'GERENTE') {
-      router.push('/admin');
+    if (!authLoading && user) {
+      if (user.role === 'GERENTE') router.push('/gerente/servicos');
+      else if (user.role !== 'ADMIN') router.push('/admin');
     }
   }, [user, authLoading, router]);
 
   useEffect(() => {
-    if (user?.role === 'ADMIN' || user?.role === 'GERENTE') {
+    if (user?.role === 'ADMIN') {
       loadServices();
     }
   }, [user]);
@@ -105,7 +106,7 @@ export default function ServicosPage() {
     setFormData({ name: '', duration: '', price: '' });
   };
 
-  if (user?.role !== 'ADMIN' && user?.role !== 'GERENTE') {
+  if (user?.role !== 'ADMIN') {
     return null;
   }
 

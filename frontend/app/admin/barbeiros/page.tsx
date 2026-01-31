@@ -74,13 +74,14 @@ export default function BarbeirosPage() {
   });
 
   useEffect(() => {
-    if (!authLoading && user && user.role !== 'ADMIN' && user.role !== 'GERENTE') {
-      router.push('/admin');
+    if (!authLoading && user) {
+      if (user.role === 'GERENTE') router.push('/gerente/barbeiros');
+      else if (user.role !== 'ADMIN') router.push('/admin');
     }
   }, [user, authLoading, router]);
 
   useEffect(() => {
-    if (user?.role === 'ADMIN' || user?.role === 'GERENTE') {
+    if (user?.role === 'ADMIN') {
       loadBarbers();
       loadUsers();
       loadServices();
@@ -308,7 +309,7 @@ export default function BarbeirosPage() {
     }));
   };
 
-  if (user?.role !== 'ADMIN' && user?.role !== 'GERENTE') {
+  if (user?.role !== 'ADMIN') {
     return null;
   }
 

@@ -5,53 +5,25 @@ import Layout from '@/components/Layout';
 import Loading from '@/components/Loading';
 import api from '@/lib/api';
 import { format } from 'date-fns';
-import { useAuth } from '@/contexts/AuthContext';
-import { useRouter } from 'next/navigation';
 
 interface Schedule {
   _id: string;
   startAt: string;
   endAt: string;
   status: string;
-  clientId: {
-    name: string;
-    email: string;
-  };
-  serviceId: {
-    name: string;
-    duration: number;
-    price: number;
-  };
-  barberId: {
-    userId: {
-      name: string;
-    };
-  };
+  clientId: { name: string; email: string };
+  serviceId: { name: string; duration: number; price: number };
+  barberId: { userId: { name: string } };
 }
 
-export default function AgendamentosPage() {
-  const { user, loading: authLoading } = useAuth();
-  const router = useRouter();
+export default function GerenteAgendamentosPage() {
   const [schedules, setSchedules] = useState<Schedule[]>([]);
   const [loading, setLoading] = useState(true);
-  const [filters, setFilters] = useState({
-    status: '',
-    startDate: '',
-    endDate: '',
-  });
+  const [filters, setFilters] = useState({ status: '', startDate: '', endDate: '' });
 
   useEffect(() => {
-    if (!authLoading && user) {
-      if (user.role === 'GERENTE') router.push('/gerente/agendamentos');
-      else if (user.role !== 'ADMIN') router.push('/admin');
-    }
-  }, [user, authLoading, router]);
-
-  useEffect(() => {
-    if (user?.role === 'ADMIN') {
-      loadSchedules();
-    }
-  }, [filters, user?.role]);
+    loadSchedules();
+  }, [filters]);
 
   const loadSchedules = async () => {
     try {
@@ -59,7 +31,6 @@ export default function AgendamentosPage() {
       if (filters.status) params.status = filters.status;
       if (filters.startDate) params.startDate = filters.startDate;
       if (filters.endDate) params.endDate = filters.endDate;
-
       const response = await api.get('/schedules', { params });
       setSchedules(response.data);
     } catch (err) {
@@ -80,22 +51,13 @@ export default function AgendamentosPage() {
 
   const getStatusColor = (status: string) => {
     switch (status) {
-      case 'AGENDADO':
-        return 'bg-yellow-100 text-yellow-800';
-      case 'CONFIRMADO':
-        return 'bg-blue-100 text-blue-800';
-      case 'CANCELADO':
-        return 'bg-red-100 text-red-800';
-      case 'CONCLUIDO':
-        return 'bg-green-100 text-green-800';
-      default:
-        return 'bg-gray-100 text-gray-800';
+      case 'AGENDADO': return 'bg-yellow-100 text-yellow-800';
+      case 'CONFIRMADO': return 'bg-blue-100 text-blue-800';
+      case 'CANCELADO': return 'bg-red-100 text-red-800';
+      case 'CONCLUIDO': return 'bg-green-100 text-green-800';
+      default: return 'bg-gray-100 text-gray-800';
     }
   };
-
-  if (user?.role !== 'ADMIN') {
-    return null;
-  }
 
   return (
     <Layout>
@@ -108,11 +70,7 @@ export default function AgendamentosPage() {
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 sm:gap-4">
             <div>
               <label className="block text-gray-700 text-sm font-bold mb-2">Status</label>
-              <select
-                value={filters.status}
-                onChange={(e) => setFilters({ ...filters, status: e.target.value })}
-                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700"
-              >
+              <select value={filters.status} onChange={(e) => setFilters({ ...filters, status: e.target.value })} className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700">
                 <option value="">Todos</option>
                 <option value="AGENDADO">Agendado</option>
                 <option value="CONFIRMADO">Confirmado</option>
@@ -122,21 +80,11 @@ export default function AgendamentosPage() {
             </div>
             <div>
               <label className="block text-gray-700 text-sm font-bold mb-2">Data Inicial</label>
-              <input
-                type="date"
-                value={filters.startDate}
-                onChange={(e) => setFilters({ ...filters, startDate: e.target.value })}
-                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700"
-              />
+              <input type="date" value={filters.startDate} onChange={(e) => setFilters({ ...filters, startDate: e.target.value })} className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700" />
             </div>
             <div>
               <label className="block text-gray-700 text-sm font-bold mb-2">Data Final</label>
-              <input
-                type="date"
-                value={filters.endDate}
-                onChange={(e) => setFilters({ ...filters, endDate: e.target.value })}
-                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700"
-              />
+              <input type="date" value={filters.endDate} onChange={(e) => setFilters({ ...filters, endDate: e.target.value })} className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700" />
             </div>
           </div>
         </div>
@@ -148,16 +96,8 @@ export default function AgendamentosPage() {
                 <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3">
                   <div className="flex-1 min-w-0">
                     <div className="flex flex-wrap items-center gap-2">
-                      <h3 className="text-base sm:text-lg font-medium text-gray-900">
-                        {schedule.serviceId.name}
-                      </h3>
-                      <span
-                        className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${getStatusColor(
-                          schedule.status,
-                        )}`}
-                      >
-                        {schedule.status}
-                      </span>
+                      <h3 className="text-base sm:text-lg font-medium text-gray-900">{schedule.serviceId.name}</h3>
+                      <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${getStatusColor(schedule.status)}`}>{schedule.status}</span>
                     </div>
                     <div className="mt-2 text-sm text-gray-500 space-y-1">
                       <p><strong>Cliente:</strong> {schedule.clientId.name} ({schedule.clientId.email})</p>
@@ -167,11 +107,7 @@ export default function AgendamentosPage() {
                     </div>
                   </div>
                   <div className="sm:ml-4 flex-shrink-0 w-full sm:w-auto">
-                    <select
-                      value={schedule.status}
-                      onChange={(e) => handleStatusChange(schedule._id, e.target.value)}
-                      className="shadow border rounded py-2 px-3 text-gray-700 text-sm w-full sm:w-auto min-w-[140px]"
-                    >
+                    <select value={schedule.status} onChange={(e) => handleStatusChange(schedule._id, e.target.value)} className="shadow border rounded py-2 px-3 text-gray-700 text-sm w-full sm:w-auto min-w-[140px]">
                       <option value="AGENDADO">Agendado</option>
                       <option value="CONFIRMADO">Confirmado</option>
                       <option value="CANCELADO">Cancelado</option>

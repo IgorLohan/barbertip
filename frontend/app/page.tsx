@@ -15,12 +15,14 @@ export default function Home() {
     if (!loading) {
       if (isAuthenticated) {
         // Redirecionar baseado no role do usuário
-        if (user?.role === 'ADMIN' || user?.role === 'GERENTE') {
+        if (user?.role === 'ADMIN') {
           router.push('/admin/dashboard');
+        } else if (user?.role === 'GERENTE') {
+          router.push('/gerente/dashboard');
         } else if (user?.role === 'BARBEIRO') {
           router.push('/barbeiro/agendamentos');
         } else {
-          router.push('/agendar');
+          router.push('/cliente/agendar');
         }
       } else {
         // Mostrar landing page se não estiver autenticado

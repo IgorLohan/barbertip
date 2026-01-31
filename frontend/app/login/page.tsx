@@ -22,12 +22,14 @@ export default function LoginPage() {
       await login(email, password);
       // Redirecionar baseado no role do usuário
       const userData = JSON.parse(localStorage.getItem('user') || '{}');
-      if (userData.role === 'ADMIN' || userData.role === 'GERENTE') {
+      if (userData.role === 'ADMIN') {
         router.push('/admin/dashboard');
+      } else if (userData.role === 'GERENTE') {
+        router.push('/gerente/dashboard');
       } else if (userData.role === 'BARBEIRO') {
         router.push('/barbeiro/agendamentos');
       } else {
-        router.push('/agendar');
+        router.push('/cliente/agendar');
       }
     } catch (err: any) {
       setError(err.response?.data?.message || 'Erro ao fazer login');
