@@ -23,7 +23,6 @@ interface Company {
   phone?: string;
   active: boolean;
   monthlyFee?: number;
-  serviceId?: string | { _id: string; name: string };
   serviceIds?: string[] | { _id: string; name: string }[];
 }
 
@@ -120,18 +119,10 @@ export default function EmpresasPage() {
   };
 
   const getCompanyServiceIds = (company: Company): string[] => {
-    if (company.serviceIds?.length) {
-      return company.serviceIds.map((s) =>
-        typeof s === 'object' && s !== null && '_id' in s ? (s as { _id: string })._id : String(s)
-      );
-    }
-    if (company.serviceId) {
-      const id = typeof company.serviceId === 'object' && company.serviceId !== null && '_id' in company.serviceId
-        ? (company.serviceId as { _id: string })._id
-        : String(company.serviceId);
-      return id ? [id] : [];
-    }
-    return [];
+    if (!company.serviceIds?.length) return [];
+    return company.serviceIds.map((s) =>
+      typeof s === 'object' && s !== null && '_id' in s ? (s as { _id: string })._id : String(s)
+    );
   };
 
   const handleEdit = (company: Company) => {

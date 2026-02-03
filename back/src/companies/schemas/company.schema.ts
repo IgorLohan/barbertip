@@ -20,9 +20,6 @@ export class Company {
   @Prop()
   linkendereco?: string;
 
-  @Prop({ type: MongooseSchema.Types.ObjectId, ref: 'EstablishmentType' })
-  serviceId?: string;
-
   @Prop({ type: [{ type: MongooseSchema.Types.ObjectId, ref: 'EstablishmentType' }], default: undefined })
   serviceIds?: string[];
 

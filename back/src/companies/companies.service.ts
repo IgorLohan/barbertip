@@ -29,10 +29,6 @@ export class CompaniesService {
       const doc: Record<string, unknown> = { ...createCompanyDto };
       if (createCompanyDto.serviceIds?.length) {
         doc.serviceIds = createCompanyDto.serviceIds;
-        doc.serviceId = createCompanyDto.serviceIds[0];
-      } else if (createCompanyDto.serviceId) {
-        doc.serviceId = createCompanyDto.serviceId;
-        doc.serviceIds = [createCompanyDto.serviceId];
       }
       const createdCompany = new this.companyModel(doc);
       return await createdCompany.save();
@@ -50,7 +46,6 @@ export class CompaniesService {
     return this.companyModel
       .find({})
       .sort({ name: 1 })
-      .populate('serviceId', 'name')
       .populate('serviceIds', 'name')
       .exec();
   }
@@ -78,10 +73,7 @@ export class CompaniesService {
     const baseQuery: Record<string, unknown> = { active: true };
     if (filters?.categoryId?.trim()) {
       const categoryId = filters.categoryId.trim();
-      baseQuery.$or = [
-        { serviceId: categoryId },
-        { serviceIds: categoryId },
-      ];
+      baseQuery.serviceIds = categoryId;
     }
     let companyIdsByService: string[] | null = null;
     if (filters?.serviceName?.trim()) {
@@ -144,7 +136,6 @@ export class CompaniesService {
   async findOne(id: string): Promise<Company> {
     return this.companyModel
       .findById(id)
-      .populate('serviceId', 'name')
       .populate('serviceIds', 'name')
       .exec();
   }
@@ -154,15 +145,16 @@ export class CompaniesService {
       const doc: Record<string, unknown> = { ...updateCompanyDto };
       if (updateCompanyDto.serviceIds !== undefined) {
         doc.serviceIds = updateCompanyDto.serviceIds.length ? updateCompanyDto.serviceIds : undefined;
-        doc.serviceId = updateCompanyDto.serviceIds.length ? updateCompanyDto.serviceIds[0] : undefined;
-      } else if (updateCompanyDto.serviceId !== undefined) {
-        doc.serviceId = updateCompanyDto.serviceId;
-        doc.serviceIds = updateCompanyDto.serviceId ? [updateCompanyDto.serviceId] : undefined;
       }
       const updated = await this.companyModel
         .findByIdAndUpdate(id, doc, { new: true })
         .exec();
-      return updated!;
+      // Remover campo legado serviceId direto na coleção (schema não tem mais o campo)
+      await this.companyModel.collection.updateOne(
+        { _id: updated!._id },
+        { $unset: { serviceId: '' } },
+      );
+      return (await this.companyModel.findById(id).populate('serviceIds', 'name').exec())!;
     } catch (err) {
       if (this.isDuplicateKeyError(err)) {
         throw new ConflictException(
