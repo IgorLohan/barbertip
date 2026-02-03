@@ -52,7 +52,7 @@ export class CompaniesController {
 
   @Delete(':id')
   @Roles(UserRole.ADMIN)
-  @ApiOperation({ summary: 'Remover empresa (soft delete)' })
+  @ApiOperation({ summary: 'Remover empresa (exclusão definitiva)' })
   remove(@Param('id') id: string) {
     return this.companiesService.remove(id);
   }

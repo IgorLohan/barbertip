@@ -91,6 +91,6 @@ export class UsersService {
   }
 
   async remove(id: string): Promise<void> {
-    await this.userModel.findByIdAndUpdate(id, { active: false }).exec();
+    await this.userModel.findByIdAndDelete(id).exec();
   }
 }

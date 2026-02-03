@@ -45,6 +45,6 @@ export class ServicesService {
   }
 
   async remove(id: string): Promise<void> {
-    await this.serviceModel.findByIdAndUpdate(id, { active: false }).exec();
+    await this.serviceModel.findByIdAndDelete(id).exec();
   }
 }

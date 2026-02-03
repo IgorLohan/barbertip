@@ -81,7 +81,7 @@ export class ServiceCompaniesController {
   @UseGuards(JwtAuthGuard, RolesGuard)
   @ApiBearerAuth()
   @Roles(UserRole.ADMIN)
-  @ApiOperation({ summary: 'Remover tipo de estabelecimento (soft delete)' })
+  @ApiOperation({ summary: 'Remover tipo de estabelecimento (exclusão definitiva)' })
   remove(@Param('id') id: string) {
     return this.establishmentTypeService.remove(id);
   }

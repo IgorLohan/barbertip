@@ -80,7 +80,7 @@ export class ServiceController {
   @UseGuards(JwtAuthGuard, RolesGuard)
   @ApiBearerAuth()
   @Roles(UserRole.ADMIN, UserRole.GERENTE)
-  @ApiOperation({ summary: 'Remover serviço interno (soft delete)' })
+  @ApiOperation({ summary: 'Remover serviço interno (exclusão definitiva)' })
   remove(@Param('id') id: string) {
     return this.servicesService.remove(id);
   }

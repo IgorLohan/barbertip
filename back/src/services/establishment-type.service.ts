@@ -84,10 +84,8 @@ export class EstablishmentTypeService {
   }
 
   async remove(id: string): Promise<void> {
-    const updated = await this.establishmentTypeModel
-      .findByIdAndUpdate(id, { active: false }, { new: true })
-      .exec();
-    if (!updated) {
+    const deleted = await this.establishmentTypeModel.findByIdAndDelete(id).exec();
+    if (!deleted) {
       throw new NotFoundException('Tipo de estabelecimento não encontrado');
     }
   }

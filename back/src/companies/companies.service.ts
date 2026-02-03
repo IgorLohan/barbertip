@@ -166,6 +166,6 @@ export class CompaniesService {
   }
 
   async remove(id: string): Promise<void> {
-    await this.companyModel.findByIdAndUpdate(id, { active: false }).exec();
+    await this.companyModel.findByIdAndDelete(id).exec();
   }
 }

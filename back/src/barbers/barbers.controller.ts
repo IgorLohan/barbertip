@@ -70,7 +70,7 @@ export class BarbersController {
 
   @Delete(':id')
   @Roles(UserRole.ADMIN)
-  @ApiOperation({ summary: 'Remover barbeiro (soft delete)' })
+  @ApiOperation({ summary: 'Remover barbeiro (exclusão definitiva)' })
   remove(@Param('id') id: string) {
     return this.barbersService.remove(id);
   }

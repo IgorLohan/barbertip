@@ -140,7 +140,7 @@ export class SchedulesController {
   }
 
   @Delete(':id')
-  @ApiOperation({ summary: 'Remover agendamento (soft delete)' })
+  @ApiOperation({ summary: 'Remover agendamento (exclusão definitiva)' })
   remove(@Param('id') id: string) {
     return this.schedulesService.remove(id);
   }

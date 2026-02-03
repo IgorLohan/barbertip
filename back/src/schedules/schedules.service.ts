@@ -312,7 +312,7 @@ export class SchedulesService {
   }
 
   async remove(id: string): Promise<void> {
-    await this.scheduleModel.findByIdAndUpdate(id, { deleted: true }).exec();
+    await this.scheduleModel.findByIdAndDelete(id).exec();
   }
 
   async updateStatus(id: string, status: ScheduleStatus): Promise<Schedule> {

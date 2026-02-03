@@ -84,6 +84,6 @@ export class BarbersService {
   }
 
   async remove(id: string): Promise<void> {
-    await this.barberModel.findByIdAndUpdate(id, { active: false }).exec();
+    await this.barberModel.findByIdAndDelete(id).exec();
   }
 }
