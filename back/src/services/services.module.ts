@@ -9,6 +9,7 @@ import {
   EstablishmentType,
   EstablishmentTypeSchema,
 } from './schemas/establishment-type.schema';
+import { CompaniesModule } from '../companies/companies.module';
 
 @Module({
   imports: [
@@ -16,6 +17,7 @@ import {
       { name: Service.name, schema: ServiceSchema },
       { name: EstablishmentType.name, schema: EstablishmentTypeSchema },
     ]),
+    CompaniesModule,
   ],
   controllers: [ServiceCompaniesController, ServiceController],
   providers: [ServicesService, EstablishmentTypeService],

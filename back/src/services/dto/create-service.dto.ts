@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsString, IsNumber, Min, IsNotEmpty } from 'class-validator';
+import { IsString, IsNumber, Min, IsNotEmpty, IsOptional } from 'class-validator';
 import { Type } from 'class-transformer';
 
 export class CreateServiceDto {
@@ -19,4 +19,9 @@ export class CreateServiceDto {
   @IsNumber()
   @Min(0)
   price: number;
+
+  @ApiProperty({ example: '507f1f77bcf86cd799439011', required: false, description: 'ID da empresa (obrigatório para ADMIN)' })
+  @IsString()
+  @IsOptional()
+  companyId?: string;
 }

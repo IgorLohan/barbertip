@@ -21,7 +21,11 @@ export class ServicesService {
 
   async findAll(companyId: string | null): Promise<Service[]> {
     const query = companyId ? { companyId, active: true } : { active: true };
-    return this.serviceModel.find(query).exec();
+    return this.serviceModel
+      .find(query)
+      .populate('companyId', 'name')
+      .sort({ name: 1 })
+      .exec();
   }
 
   async findOne(id: string): Promise<Service> {

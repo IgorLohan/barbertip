@@ -11,6 +11,7 @@ import {
 } from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiQuery, ApiBearerAuth } from '@nestjs/swagger';
 import { ServicesService } from './services.service';
+import { CompaniesService } from '../companies/companies.service';
 import { CreateServiceDto } from './dto/create-service.dto';
 import { UpdateServiceDto } from './dto/update-service.dto';
 import { JwtAuthGuard } from '../common/guards/jwt-auth.guard';
@@ -28,7 +29,10 @@ import { UserRole } from '../common/enums/user-role.enum';
 @ApiTags('Service')
 @Controller('service')
 export class ServiceController {
-  constructor(private readonly servicesService: ServicesService) {}
+  constructor(
+    private readonly servicesService: ServicesService,
+    private readonly companiesService: CompaniesService,
+  ) {}
 
   @Get()
   @ApiOperation({
@@ -41,6 +45,22 @@ export class ServiceController {
     return this.servicesService.findAll(companyId ?? null);
   }
 
+  @Get('admin/context')
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @ApiBearerAuth()
+  @Roles(UserRole.ADMIN)
+  @ApiOperation({
+    summary: 'Contexto admin: serviços com empresa incluída + lista de empresas',
+    description: 'Um único GET retorna serviços (com companyId populado) e lista de empresas. Apenas ADMIN.',
+  })
+  async getAdminContext() {
+    const [services, companies] = await Promise.all([
+      this.servicesService.findAll(null),
+      this.companiesService.findAll(),
+    ]);
+    return { services, companies };
+  }
+
   @Post()
   @UseGuards(JwtAuthGuard, RolesGuard)
   @ApiBearerAuth()
@@ -51,10 +71,13 @@ export class ServiceController {
     @CurrentCompany() companyId: string | null,
     @CurrentUser() user: any,
   ) {
-    const finalCompanyId = companyId || user?.companyId;
+    const finalCompanyId =
+      (user?.role === 'ADMIN' && createServiceDto.companyId)
+        ? createServiceDto.companyId
+        : (companyId || user?.companyId) ?? null;
     return this.servicesService.create({
       ...createServiceDto,
-      companyId: finalCompanyId ?? null,
+      companyId: finalCompanyId,
     } as any);
   }
 
